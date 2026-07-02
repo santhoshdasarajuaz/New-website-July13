@@ -20,7 +20,7 @@ function NotFoundComponent() {
         <h1 className="text-7xl font-bold text-foreground">404</h1>
         <h2 className="mt-4 text-xl font-semibold text-foreground">Page not found</h2>
         <p className="mt-2 text-sm text-muted-foreground">
-          The page you're looking for doesn't exist or has been moved.
+          The page you’re looking for could not be found.
         </p>
         <div className="mt-6">
           <Link
@@ -29,6 +29,11 @@ function NotFoundComponent() {
           >
             Go home
           </Link>
+          <div className="mt-3">
+            <Link to="/contact" className="text-sm font-semibold text-royal hover:underline">
+              Contact us
+            </Link>
+          </div>
         </div>
       </div>
     </div>
@@ -36,7 +41,7 @@ function NotFoundComponent() {
 }
 
 function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
-  console.error(error);
+  if (import.meta.env.DEV) console.error(error);
   const router = useRouter();
   useEffect(() => {
     reportClientError(error, { boundary: "tanstack_root_error_component" });
@@ -46,10 +51,10 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
         <h1 className="text-xl font-semibold tracking-tight text-foreground">
-          This page didn't load
+          Something went wrong
         </h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          Something went wrong on our end. You can try refreshing or head back home.
+          Please refresh the page or return to the homepage.
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-2">
           <button
@@ -59,7 +64,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
             }}
             className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
           >
-            Try again
+            Refresh page
           </button>
           <a
             href="/"
@@ -112,7 +117,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     ],
     links: [
       { rel: "stylesheet", href: appCss },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
+      { rel: "alternate icon", href: "/favicon.svg", type: "image/svg+xml" },
+      { rel: "manifest", href: "/manifest.json" },
+      { rel: "apple-touch-icon", href: "/favicon.svg" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {

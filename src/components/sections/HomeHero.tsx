@@ -15,7 +15,7 @@ const trustChips = [
 
 export function HomeHero() {
   return (
-    <section className="relative overflow-hidden bg-navy-deep text-white pt-20 pb-16 lg:pt-28 lg:pb-20">
+    <section className="relative overflow-hidden bg-navy-deep text-white pt-12 pb-12 lg:pt-18 lg:pb-18">
       <div
         className="absolute inset-0 opacity-20 bg-cover bg-center"
         style={{ backgroundImage: `url(${heroBg})` }}
@@ -38,14 +38,8 @@ export function HomeHero() {
       <Container className="relative">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
           <div className="lg:col-span-6">
-            <Reveal>
-              <span className="inline-flex items-center gap-2 rounded-full border border-cyan-accent/40 bg-cyan-accent/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-cyan-accent">
-                <span className="h-1.5 w-1.5 rounded-full bg-cyan-accent" />
-                Malaysia’s IT Services, Training & Talent Partner
-              </span>
-            </Reveal>
             <Reveal delay={0.05}>
-              <h1 className="mt-5 font-display text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.04] tracking-tight">
+              <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.04] tracking-tight">
                 Technology, Training & Talent Solutions for{" "}
                 <span className="text-gradient-cyan">Financial Services</span>
               </h1>

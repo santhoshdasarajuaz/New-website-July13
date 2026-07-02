@@ -1,0 +1,16 @@
+{
+  "name": "Niaga Prestasi Sdn Bhd",
+  "short_name": "Niaga Prestasi",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#06122F",
+  "background_color": "#06122F",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
