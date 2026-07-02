@@ -19,7 +19,8 @@ export const Route = createFileRoute("/_site/expertise/")({
       { property: "og:title", content: "Expertise — Niaga Prestasi" },
       {
         property: "og:description",
-        content: "Banking, insurance and AI expertise for Malaysia's financial sector.",
+        content:
+          "Banking, insurance and AI expertise, delivered with strong engineering and domain depth.",
       },
       { property: "og:url", content: "/expertise" },
     ],

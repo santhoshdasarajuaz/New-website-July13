@@ -130,7 +130,7 @@ export const expertise: Expertise[] = [
   {
     slug: "ai-python",
     title: "AI & Python Solutions",
-    subtitle: "Machine learning, NLP and data-driven automation for financial services.",
+    subtitle: "Machine learning, NLP and data-driven automation for modern businesses.",
     icon: Brain,
     overview:
       "We develop intelligent AI tools and data-driven solutions using Python — from machine learning models and NLP systems to fraud detection, predictive analytics and conversational AI tailored for banking and insurance.",

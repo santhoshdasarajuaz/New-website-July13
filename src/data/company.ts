@@ -1,7 +1,7 @@
 export const company = {
   name: "Niaga Prestasi Sdn Bhd",
   short: "Niaga Prestasi",
-  tagline: "Technology, Training & Talent Solutions for Malaysia's Financial Sector",
+  tagline: "IT Services, Training & Talent Solutions for Malaysia",
   phone: "+60 3-2202 1116",
   phoneHref: "tel:+60322021116",
   email: "info@niagaprestasi.com",

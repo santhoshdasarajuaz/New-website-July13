@@ -32,17 +32,20 @@ import { company } from "@/data/company";
 export const Route = createFileRoute("/_site/")({
   head: () => ({
     meta: [
-      { title: "Niaga Prestasi — Technology, Training & Talent for Malaysia's Financial Sector" },
+      { title: "Niaga Prestasi Sdn Bhd | IT Services, Training & Talent Solutions Malaysia" },
       {
         name: "description",
         content:
-          "We help banks, insurers and enterprises build reliable software, modernize platforms, strengthen talent and deliver technology programs with confidence.",
+          "Niaga Prestasi helps Malaysian businesses modernize software, strengthen teams, deliver AI and data solutions, and connect with skilled technology talent.",
       },
-      { property: "og:title", content: "Niaga Prestasi — Malaysia's Financial Technology Partner" },
+      {
+        property: "og:title",
+        content: "Niaga Prestasi Sdn Bhd | IT Services, Training & Talent Solutions Malaysia",
+      },
       {
         property: "og:description",
         content:
-          "IT services, banking & insurance technology, AI & data, and HRDC-approved training.",
+          "IT services, AI & data solutions, cloud modernization, HRDC training, and talent solutions for Malaysian businesses.",
       },
       { property: "og:url", content: "/" },
     ],
@@ -181,7 +184,7 @@ function HomePage() {
             <SectionHeader
               eyebrow="Domain expertise"
               title="Built for Banking & Insurance"
-              description="We combine software engineering with deep domain understanding of Malaysia's financial services sector."
+              description="We combine software engineering with deep domain understanding of banking and insurance operations in Malaysia."
             />
           </Reveal>
           <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -247,8 +250,8 @@ function HomePage() {
                   eyebrow="Artificial Intelligence"
                   title={
                     <>
-                      AI & Python <span className="text-gradient-cyan">solutions</span> for
-                      financial services
+                      AI & Python <span className="text-gradient-cyan">solutions</span> for business
+                      outcomes
                     </>
                   }
                   description="We develop intelligent AI tools and data-driven solutions using Python — from machine learning models and NLP systems to fraud detection, predictive analytics and conversational AI."
@@ -460,7 +463,7 @@ function HomePage() {
             <SectionHeader
               invert
               eyebrow="How we work"
-              title="A delivery model built for financial services"
+              title="A delivery model built for complex programs"
               description="Our engagement model blends senior architects, domain analysts and hands-on engineers — supported by a training arm that keeps your team growing."
             />
           </Reveal>

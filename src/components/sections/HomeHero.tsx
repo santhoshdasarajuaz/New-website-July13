@@ -6,11 +6,12 @@ import { CTAButton } from "@/components/ui/cta-button";
 import { Reveal } from "@/components/ui/reveal";
 
 const trustChips = [
-  "Banking Technology",
-  "Insurance Systems",
+  "IT Services",
   "AI & Data",
+  "Cloud Modernization",
   "HRDC Training",
   "Talent Solutions",
+  "Banking & Insurance Expertise",
 ];
 
 export function HomeHero() {
@@ -40,14 +41,13 @@ export function HomeHero() {
           <div className="lg:col-span-6">
             <Reveal delay={0.05}>
               <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.04] tracking-tight">
-                Technology, Training & Talent Solutions for{" "}
-                <span className="text-gradient-cyan">Financial Services</span>
+                Build Technology. Train Talent. Grow Smarter.
               </h1>
             </Reveal>
             <Reveal delay={0.1}>
               <p className="mt-6 text-base md:text-lg text-white/75 leading-relaxed max-w-xl">
-                Niaga Prestasi helps banks, insurers and enterprises deliver reliable software,
-                AI/data solutions, cloud modernization, HRDC training and skilled technology talent.
+                Niaga Prestasi helps Malaysian businesses modernize software, strengthen teams,
+                deliver AI and data solutions, and connect with skilled technology talent.
               </p>
             </Reveal>
 
@@ -87,18 +87,21 @@ export function HomeHero() {
                   <div className="grid grid-cols-2 gap-4">
                     {[
                       {
-                        title: "Delivery",
-                        body: "Build, test, deploy and operate with confidence.",
-                      },
-                      {
-                        title: "Modernization",
-                        body: "Cloud migration and platform modernization.",
+                        title: "Technology Delivery",
+                        body: "Build, test, deploy and operate reliable business systems.",
                       },
                       {
                         title: "AI & Data",
-                        body: "Practical AI solutions for real business outcomes.",
+                        body: "Turn data into practical automation, insights and smarter decisions.",
                       },
-                      { title: "Training", body: "HRDC-ready programs to upskill teams." },
+                      {
+                        title: "Training",
+                        body: "Upskill students, professionals and teams with structured IT programs.",
+                      },
+                      {
+                        title: "Talent",
+                        body: "Connect businesses with skilled technology talent and staffing support.",
+                      },
                     ].map((c) => (
                       <div
                         key={c.title}
