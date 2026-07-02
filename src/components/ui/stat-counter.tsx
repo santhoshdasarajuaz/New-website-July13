@@ -43,7 +43,9 @@ export function StatCounter({ value, label }: { value: string; label: string }) 
       transition={{ duration: 0.5 }}
       className="text-center"
     >
-      <div className="font-display text-3xl md:text-4xl font-bold text-gradient-cyan">{display}</div>
+      <div className="font-display text-3xl md:text-4xl font-bold text-gradient-cyan">
+        {display}
+      </div>
       <div className="mt-2 text-xs md:text-sm uppercase tracking-wider text-white/60">{label}</div>
     </motion.div>
   );

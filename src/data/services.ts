@@ -1,5 +1,12 @@
 import {
-  Code2, Wrench, FlaskConical, Headphones, LineChart, Cloud, Database, Plug,
+  Code2,
+  Wrench,
+  FlaskConical,
+  Headphones,
+  LineChart,
+  Cloud,
+  Database,
+  Plug,
   type LucideIcon,
 } from "lucide-react";
 
@@ -38,10 +45,22 @@ export const services: Service[] = [
       "Customer-facing portals with high compliance standards",
     ],
     approach: [
-      { title: "Discovery", body: "Requirements gathering with domain analysts embedded from day one." },
-      { title: "Design", body: "Solution architecture aligned to BNM, PIDM and internal governance controls." },
-      { title: "Build", body: "Agile squads shipping iteratively with continuous integration and QA gates." },
-      { title: "Operate", body: "SLA-backed production support, monitoring and enhancement cycles." },
+      {
+        title: "Discovery",
+        body: "Requirements gathering with domain analysts embedded from day one.",
+      },
+      {
+        title: "Design",
+        body: "Solution architecture aligned to BNM, PIDM and internal governance controls.",
+      },
+      {
+        title: "Build",
+        body: "Agile squads shipping iteratively with continuous integration and QA gates.",
+      },
+      {
+        title: "Operate",
+        body: "SLA-backed production support, monitoring and enhancement cycles.",
+      },
     ],
     benefits: [
       "Predictable delivery with senior engineering leadership",
@@ -63,7 +82,7 @@ export const services: Service[] = [
       "Performance tuning and code optimization",
       "Bug triage, root-cause analysis and hotfix delivery",
       "Documentation and knowledge transfer",
-      "Vendor and third-party coordination",
+      "Vendor and external partner coordination",
     ],
     useCases: [
       "Long-running banking or insurance platforms",
@@ -258,7 +277,7 @@ export const services: Service[] = [
     subtitle: "Reliable integrations across banking, payment and enterprise networks.",
     icon: Plug,
     overview:
-      "Robust API design, third-party integrations and payment network connectivity — including RTGS, interbank GIRO, digital wallets and open banking APIs.",
+      "Robust API design, external integrations and payment network connectivity — including RTGS, interbank GIRO, digital wallets and open banking APIs.",
     whatWeDeliver: [
       "REST and SOAP API design and delivery",
       "Payment gateway and network integrations",

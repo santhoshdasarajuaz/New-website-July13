@@ -29,7 +29,11 @@ export function MobileMenu({ open, onClose }: { open: boolean; onClose: () => vo
           >
             <div className="flex items-center justify-between p-5 border-b border-border">
               <Logo />
-              <button aria-label="Close menu" onClick={onClose} className="h-10 w-10 inline-flex items-center justify-center rounded-md hover:bg-surface-muted">
+              <button
+                aria-label="Close menu"
+                onClick={onClose}
+                className="h-10 w-10 inline-flex items-center justify-center rounded-md hover:bg-surface-muted"
+              >
                 <X className="h-5 w-5" />
               </button>
             </div>
@@ -52,7 +56,9 @@ export function MobileMenu({ open, onClose }: { open: boolean; onClose: () => vo
                       >
                         <ChevronDown
                           className="h-4 w-4 transition-transform"
-                          style={{ transform: expanded === item.label ? "rotate(180deg)" : undefined }}
+                          style={{
+                            transform: expanded === item.label ? "rotate(180deg)" : undefined,
+                          }}
                         />
                       </button>
                     ) : null}
@@ -76,7 +82,9 @@ export function MobileMenu({ open, onClose }: { open: boolean; onClose: () => vo
               ))}
             </div>
             <div className="p-5 border-t border-border space-y-3">
-              <CTAButton to="/contact" className="w-full">Get Started</CTAButton>
+              <CTAButton to="/contact" className="w-full">
+                Get Started
+              </CTAButton>
               <div className="text-xs text-ink-soft text-center">
                 <div>{company.phone}</div>
                 <div>{company.email}</div>

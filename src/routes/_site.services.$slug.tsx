@@ -44,11 +44,19 @@ function ServiceDetail() {
         eyebrow="Services"
         title={service.title}
         description={service.subtitle}
-        crumbs={[{ label: "Home", to: "/" }, { label: "Services", to: "/services" }, { label: service.title }]}
+        crumbs={[
+          { label: "Home", to: "/" },
+          { label: "Services", to: "/services" },
+          { label: service.title },
+        ]}
         actions={
           <>
-            <CTAButton to="/contact" size="lg">Discuss your project</CTAButton>
-            <CTAButton to="/services" size="lg" variant="outline-white">All services</CTAButton>
+            <CTAButton to="/contact" size="lg">
+              Discuss your project
+            </CTAButton>
+            <CTAButton to="/services" size="lg" variant="outline-white">
+              All services
+            </CTAButton>
           </>
         }
       />
@@ -58,8 +66,12 @@ function ServiceDetail() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
             <div className="lg:col-span-2">
               <Reveal>
-                <span className="text-xs font-semibold uppercase tracking-[0.18em] text-royal">Overview</span>
-                <h2 className="mt-3 font-display text-3xl font-bold text-ink">Built for scale, compliance and speed</h2>
+                <span className="text-xs font-semibold uppercase tracking-[0.18em] text-royal">
+                  Overview
+                </span>
+                <h2 className="mt-3 font-display text-3xl font-bold text-ink">
+                  Built for scale, compliance and speed
+                </h2>
                 <div className="mt-2 h-1 w-14 bg-royal rounded-full" />
                 <p className="mt-5 text-lg text-ink-soft leading-relaxed">{service.overview}</p>
               </Reveal>
@@ -68,7 +80,10 @@ function ServiceDetail() {
                 <h3 className="mt-12 font-display text-2xl font-bold text-ink">What we deliver</h3>
                 <ul className="mt-5 grid grid-cols-1 md:grid-cols-2 gap-3">
                   {service.whatWeDeliver.map((w) => (
-                    <li key={w} className="flex items-start gap-2 rounded-lg border border-border bg-surface p-4 text-sm text-ink">
+                    <li
+                      key={w}
+                      className="flex items-start gap-2 rounded-lg border border-border bg-surface p-4 text-sm text-ink"
+                    >
                       <CheckCircle2 className="h-5 w-5 text-royal shrink-0 mt-0.5" />
                       <span>{w}</span>
                     </li>
@@ -93,7 +108,9 @@ function ServiceDetail() {
                 <div className="mt-5 grid grid-cols-1 md:grid-cols-2 gap-4">
                   {service.approach.map((a, i) => (
                     <div key={a.title} className="rounded-lg border border-border bg-white p-5">
-                      <div className="font-display text-xl text-royal font-bold">{String(i + 1).padStart(2, "0")}</div>
+                      <div className="font-display text-xl text-royal font-bold">
+                        {String(i + 1).padStart(2, "0")}
+                      </div>
                       <div className="mt-2 font-semibold text-ink">{a.title}</div>
                       <p className="mt-1 text-sm text-ink-soft">{a.body}</p>
                     </div>
@@ -120,9 +137,13 @@ function ServiceDetail() {
                 <Reveal>
                   <div className="rounded-xl bg-navy-deep text-white p-6">
                     <h4 className="font-display text-lg font-bold">Ready to start?</h4>
-                    <p className="mt-2 text-sm text-white/70">Book a discovery call with our team.</p>
+                    <p className="mt-2 text-sm text-white/70">
+                      Book a discovery call with our team.
+                    </p>
                     <div className="mt-5">
-                      <CTAButton to="/contact" size="md">Contact us</CTAButton>
+                      <CTAButton to="/contact" size="md">
+                        Contact us
+                      </CTAButton>
                     </div>
                   </div>
                 </Reveal>
@@ -140,7 +161,14 @@ function ServiceDetail() {
             </Reveal>
             <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-5">
               {related.map((r) => (
-                <LinkCard key={r.slug} to="/services/$slug" params={{ slug: r.slug }} Icon={r.icon} title={r.title} description={r.subtitle} />
+                <LinkCard
+                  key={r.slug}
+                  to="/services/$slug"
+                  params={{ slug: r.slug }}
+                  Icon={r.icon}
+                  title={r.title}
+                  description={r.subtitle}
+                />
               ))}
             </div>
           </Container>

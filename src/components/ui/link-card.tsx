@@ -43,7 +43,9 @@ export function LinkCard({
         <ArrowUpRight
           className={cn(
             "h-5 w-5 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1",
-            invert ? "text-white/40 group-hover:text-cyan-accent" : "text-ink-soft group-hover:text-royal",
+            invert
+              ? "text-white/40 group-hover:text-cyan-accent"
+              : "text-ink-soft group-hover:text-royal",
           )}
         />
       </div>

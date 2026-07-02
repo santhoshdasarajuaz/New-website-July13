@@ -38,7 +38,10 @@ export function CTAButton({
   children,
   className,
   ...rest
-}: CommonProps & { to: string; search?: Record<string, string> } & Omit<ComponentProps<typeof Link>, "to" | "children" | "className" | "search">) {
+}: CommonProps & { to: string; search?: Record<string, string> } & Omit<
+    ComponentProps<typeof Link>,
+    "to" | "children" | "className" | "search"
+  >) {
   return (
     <Link
       to={to as string}

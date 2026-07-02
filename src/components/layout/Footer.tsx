@@ -4,7 +4,10 @@ import { Container } from "@/components/ui/container";
 import { Logo } from "@/components/ui/logo";
 import { company } from "@/data/company";
 
-const columns: { title: string; links: { label: string; to: string; params?: Record<string, string> }[] }[] = [
+const columns: {
+  title: string;
+  links: { label: string; to: string; params?: Record<string, string> }[];
+}[] = [
   {
     title: "Company",
     links: [
@@ -18,8 +21,16 @@ const columns: { title: string; links: { label: string; to: string; params?: Rec
   {
     title: "IT Services",
     links: [
-      { label: "Software Development", to: "/services/$slug", params: { slug: "software-development" } },
-      { label: "Application Maintenance", to: "/services/$slug", params: { slug: "application-maintenance" } },
+      {
+        label: "Software Development",
+        to: "/services/$slug",
+        params: { slug: "software-development" },
+      },
+      {
+        label: "Application Maintenance",
+        to: "/services/$slug",
+        params: { slug: "application-maintenance" },
+      },
       { label: "Cloud Migration", to: "/services/$slug", params: { slug: "cloud-migration" } },
       { label: "Data Engineering", to: "/services/$slug", params: { slug: "data-engineering" } },
       { label: "API Integration", to: "/services/$slug", params: { slug: "api-integration" } },
@@ -29,7 +40,11 @@ const columns: { title: string; links: { label: string; to: string; params?: Rec
     title: "Expertise",
     links: [
       { label: "Banking IT", to: "/expertise/$slug", params: { slug: "banking-it" } },
-      { label: "Insurance Technology", to: "/expertise/$slug", params: { slug: "insurance-technology" } },
+      {
+        label: "Insurance Technology",
+        to: "/expertise/$slug",
+        params: { slug: "insurance-technology" },
+      },
       { label: "AI & Python", to: "/expertise/$slug", params: { slug: "ai-python" } },
     ],
   },
@@ -42,6 +57,16 @@ const columns: { title: string; links: { label: string; to: string; params?: Rec
       { label: "All Courses", to: "/courses" },
     ],
   },
+  {
+    title: "Legal",
+    links: [
+      { label: "Terms & Conditions", to: "/terms" },
+      { label: "Privacy Policy", to: "/privacy" },
+      { label: "Cookie Policy", to: "/cookies" },
+      { label: "Disclaimer", to: "/disclaimer" },
+      { label: "Acceptable Use", to: "/acceptable-use" },
+    ],
+  },
 ];
 
 export function Footer() {
@@ -52,8 +77,8 @@ export function Footer() {
           <div className="lg:col-span-4">
             <Logo variant="light" />
             <p className="mt-5 text-sm leading-relaxed text-white/60 max-w-sm">
-              Malaysia's trusted IT services and talent development partner — specialized in banking,
-              insurance technology, AI solutions, and HRDC-approved professional training.
+              Malaysia's trusted IT services and talent development partner — specialized in
+              banking, insurance technology, AI solutions, and HRDC-approved professional training.
             </p>
             <div className="mt-6 space-y-3 text-sm">
               <div className="flex items-start gap-3 text-white/70">
@@ -62,10 +87,16 @@ export function Footer() {
                   {company.address.line1}, {company.address.line2}, {company.address.city}
                 </span>
               </div>
-              <a href={company.phoneHref} className="flex items-center gap-3 text-white/70 hover:text-cyan-accent">
+              <a
+                href={company.phoneHref}
+                className="flex items-center gap-3 text-white/70 hover:text-cyan-accent"
+              >
                 <Phone className="h-4 w-4 text-cyan-accent shrink-0" /> {company.phone}
               </a>
-              <a href={company.emailHref} className="flex items-center gap-3 text-white/70 hover:text-cyan-accent">
+              <a
+                href={company.emailHref}
+                className="flex items-center gap-3 text-white/70 hover:text-cyan-accent"
+              >
                 <Mail className="h-4 w-4 text-cyan-accent shrink-0" /> {company.email}
               </a>
             </div>
@@ -88,7 +119,7 @@ export function Footer() {
             </div>
           </div>
 
-          <div className="lg:col-span-8 grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div className="lg:col-span-8 grid grid-cols-2 md:grid-cols-5 gap-6">
             {columns.map((col) => (
               <div key={col.title}>
                 <h4 className="text-white font-semibold text-sm uppercase tracking-wider mb-4">
@@ -113,7 +144,9 @@ export function Footer() {
         </div>
 
         <div className="mt-12 pt-6 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-white/50">
-          <div>© {new Date().getFullYear()} {company.name}. All rights reserved.</div>
+          <div>
+            © {new Date().getFullYear()} {company.name}. All rights reserved.
+          </div>
           <div className="flex items-center gap-4">
             <span className="inline-flex items-center gap-2 rounded-full border border-white/15 px-3 py-1 text-cyan-accent font-medium">
               HRDC Approved Training Provider

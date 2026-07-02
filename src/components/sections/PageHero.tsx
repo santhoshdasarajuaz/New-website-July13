@@ -25,7 +25,11 @@ export function PageHero({
     <section
       className={cn(
         "relative overflow-hidden bg-navy-deep text-white",
-        size === "lg" ? "pt-32 pb-24 lg:pt-40 lg:pb-32" : size === "md" ? "pt-24 pb-20 lg:pt-32 lg:pb-24" : "pt-20 pb-14 lg:pt-24 lg:pb-16",
+        size === "lg"
+          ? "pt-32 pb-24 lg:pt-40 lg:pb-32"
+          : size === "md"
+            ? "pt-24 pb-20 lg:pt-32 lg:pb-24"
+            : "pt-20 pb-14 lg:pt-24 lg:pb-16",
       )}
     >
       <div
@@ -40,7 +44,10 @@ export function PageHero({
       <div className="absolute inset-0 grid-pattern opacity-30" aria-hidden="true" />
       <Container className="relative">
         {crumbs?.length ? (
-          <nav className="mb-6 text-xs text-white/60 flex flex-wrap items-center gap-1.5" aria-label="Breadcrumb">
+          <nav
+            className="mb-6 text-xs text-white/60 flex flex-wrap items-center gap-1.5"
+            aria-label="Breadcrumb"
+          >
             {crumbs.map((c, i) => (
               <span key={i} className="flex items-center gap-1.5">
                 {c.to ? (

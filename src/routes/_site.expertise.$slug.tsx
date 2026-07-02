@@ -42,11 +42,19 @@ function ExpertiseDetail() {
         eyebrow="Expertise"
         title={item.title}
         description={item.subtitle}
-        crumbs={[{ label: "Home", to: "/" }, { label: "Expertise", to: "/expertise" }, { label: item.title }]}
+        crumbs={[
+          { label: "Home", to: "/" },
+          { label: "Expertise", to: "/expertise" },
+          { label: item.title },
+        ]}
         actions={
           <>
-            <CTAButton to="/contact" size="lg">Talk to a specialist</CTAButton>
-            <CTAButton to="/expertise" size="lg" variant="outline-white">All expertise</CTAButton>
+            <CTAButton to="/contact" size="lg">
+              Talk to a specialist
+            </CTAButton>
+            <CTAButton to="/expertise" size="lg" variant="outline-white">
+              All expertise
+            </CTAButton>
           </>
         }
       />
@@ -64,7 +72,11 @@ function ExpertiseDetail() {
       <section className="pb-20 lg:pb-24 bg-white">
         <Container>
           <Reveal>
-            <SectionHeader align="left" eyebrow="Capabilities" title="What we deliver in this domain" />
+            <SectionHeader
+              align="left"
+              eyebrow="Capabilities"
+              title="What we deliver in this domain"
+            />
           </Reveal>
           <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {item.capabilities.map((c, i) => (
@@ -89,7 +101,10 @@ function ExpertiseDetail() {
           </Reveal>
           <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-5">
             {item.outcomes.map((o) => (
-              <div key={o} className="flex items-start gap-3 rounded-xl border border-white/10 bg-white/[0.03] p-5">
+              <div
+                key={o}
+                className="flex items-start gap-3 rounded-xl border border-white/10 bg-white/[0.03] p-5"
+              >
                 <CheckCircle2 className="h-5 w-5 text-cyan-accent mt-0.5" />
                 <span className="text-white/80">{o}</span>
               </div>
@@ -106,7 +121,14 @@ function ExpertiseDetail() {
             </Reveal>
             <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-5">
               {others.map((o) => (
-                <LinkCard key={o.slug} to="/expertise/$slug" params={{ slug: o.slug }} Icon={o.icon} title={o.title} description={o.subtitle} />
+                <LinkCard
+                  key={o.slug}
+                  to="/expertise/$slug"
+                  params={{ slug: o.slug }}
+                  Icon={o.icon}
+                  title={o.title}
+                  description={o.subtitle}
+                />
               ))}
             </div>
           </Container>

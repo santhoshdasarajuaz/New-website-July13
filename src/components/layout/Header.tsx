@@ -37,7 +37,9 @@ export function Header() {
     <header
       className={cn(
         "sticky top-0 z-50 w-full transition-all duration-300",
-        scrolled ? "bg-white/95 backdrop-blur-md shadow-sm border-b border-border" : "bg-white border-b border-transparent",
+        scrolled
+          ? "bg-white/95 backdrop-blur-md shadow-sm border-b border-border"
+          : "bg-white border-b border-transparent",
       )}
     >
       {/* Contact strip */}
@@ -47,10 +49,16 @@ export function Header() {
             Malaysia's trusted IT services, banking & insurance technology partner
           </span>
           <div className="flex items-center gap-6">
-            <a href={company.phoneHref} className="inline-flex items-center gap-1.5 hover:text-cyan-accent transition-colors">
+            <a
+              href={company.phoneHref}
+              className="inline-flex items-center gap-1.5 hover:text-cyan-accent transition-colors"
+            >
               <Phone className="h-3.5 w-3.5" /> {company.phone}
             </a>
-            <a href={company.emailHref} className="inline-flex items-center gap-1.5 hover:text-cyan-accent transition-colors">
+            <a
+              href={company.emailHref}
+              className="inline-flex items-center gap-1.5 hover:text-cyan-accent transition-colors"
+            >
               <Mail className="h-3.5 w-3.5" /> {company.email}
             </a>
           </div>
@@ -80,7 +88,10 @@ export function Header() {
                     className="nav-underline flex items-center gap-1 px-3 py-2 text-sm font-medium text-ink hover:text-royal transition-colors"
                   >
                     {item.label}
-                    <ChevronDown className="h-3.5 w-3.5 transition-transform" style={{ transform: open === item.label ? "rotate(180deg)" : undefined }} />
+                    <ChevronDown
+                      className="h-3.5 w-3.5 transition-transform"
+                      style={{ transform: open === item.label ? "rotate(180deg)" : undefined }}
+                    />
                   </Link>
                   <AnimatePresence>
                     {open === item.label ? (

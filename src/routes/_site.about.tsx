@@ -12,9 +12,16 @@ export const Route = createFileRoute("/_site/about")({
   head: () => ({
     meta: [
       { title: "About — Niaga Prestasi Sdn Bhd" },
-      { name: "description", content: "Malaysia-based IT services and talent development partner for banking, insurance and enterprise sectors." },
+      {
+        name: "description",
+        content:
+          "Malaysia-based IT services and talent development partner for banking, insurance and enterprise sectors.",
+      },
       { property: "og:title", content: "About Niaga Prestasi" },
-      { property: "og:description", content: "Your trusted technology and talent development partner in Malaysia." },
+      {
+        property: "og:description",
+        content: "Your trusted technology and talent development partner in Malaysia.",
+      },
       { property: "og:url", content: "/about" },
     ],
     links: [{ rel: "canonical", href: "/about" }],
@@ -23,10 +30,26 @@ export const Route = createFileRoute("/_site/about")({
 });
 
 const values = [
-  { icon: Building2, title: "Domain expertise", body: "Banking, insurance and enterprise depth built over a decade of delivery." },
-  { icon: ShieldCheck, title: "Delivery excellence", body: "Structured methodology, senior engineering, and quality-first culture." },
-  { icon: GraduationCap, title: "Training capability", body: "HRDC-approved programs that build sustainable talent pipelines." },
-  { icon: Users, title: "Talent support", body: "Recruitment, staffing and career development for our clients and community." },
+  {
+    icon: Building2,
+    title: "Domain expertise",
+    body: "Banking, insurance and enterprise depth built over a decade of delivery.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Delivery excellence",
+    body: "Structured methodology, senior engineering, and quality-first culture.",
+  },
+  {
+    icon: GraduationCap,
+    title: "Training capability",
+    body: "HRDC-approved programs that build sustainable talent pipelines.",
+  },
+  {
+    icon: Users,
+    title: "Talent support",
+    body: "Recruitment, staffing and career development for our clients and community.",
+  },
 ];
 
 const timeline = [
@@ -41,7 +64,12 @@ function AboutPage() {
     <>
       <PageHero
         eyebrow="About Us"
-        title={<>Your trusted <span className="text-gradient-cyan">technology & talent</span> development partner</>}
+        title={
+          <>
+            Your trusted <span className="text-gradient-cyan">technology & talent</span> development
+            partner
+          </>
+        }
         description="Niaga Prestasi Sdn Bhd is a Malaysia-based IT services company delivering specialized technology solutions and professional training to the banking, insurance and enterprise sectors."
         crumbs={[{ label: "Home", to: "/" }, { label: "About" }]}
       />
@@ -50,21 +78,24 @@ function AboutPage() {
         <Container>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             <Reveal>
-              <span className="text-xs font-semibold uppercase tracking-[0.18em] text-royal">Our story</span>
+              <span className="text-xs font-semibold uppercase tracking-[0.18em] text-royal">
+                Our story
+              </span>
               <h2 className="mt-3 font-display text-3xl md:text-4xl font-bold text-ink">
                 A Malaysia-based team with regional experience
               </h2>
               <div className="mt-2 h-1 w-14 bg-royal rounded-full" />
               <div className="mt-6 space-y-4 text-ink-soft leading-relaxed">
                 <p>
-                  Headquartered in Bangsar, Kuala Lumpur, we combine deep domain expertise with cutting-edge technology
-                  to help organizations innovate, modernize and grow.
+                  Headquartered in Bangsar, Kuala Lumpur, we combine deep domain expertise with
+                  cutting-edge technology to help organizations innovate, modernize and grow.
                 </p>
                 <p>
-                  Our team of seasoned engineers, business analysts and trainers brings hands-on experience across the
-                  full software development lifecycle — from requirements gathering and architecture design to development,
-                  testing, production support and workforce upskilling. We are proud to serve clients in Malaysia and the
-                  broader Asia-Pacific region.
+                  Our team of seasoned engineers, business analysts and trainers brings hands-on
+                  experience across the full software development lifecycle — from requirements
+                  gathering and architecture design to development, testing, production support and
+                  workforce upskilling. We are proud to serve clients in Malaysia and the broader
+                  Asia-Pacific region.
                 </p>
               </div>
               <ul className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -83,7 +114,9 @@ function AboutPage() {
                 ))}
               </ul>
               <div className="mt-8 flex flex-wrap gap-3">
-                <CTAButton to="/services" variant="secondary">Our services</CTAButton>
+                <CTAButton to="/services" variant="secondary">
+                  Our services
+                </CTAButton>
                 <CTAButton to="/contact" variant="ghost" withArrow={false}>
                   <span className="text-royal">Contact us</span>
                 </CTAButton>
@@ -91,7 +124,10 @@ function AboutPage() {
             </Reveal>
             <Reveal delay={0.1}>
               <div className="relative">
-                <div className="absolute -inset-4 rounded-2xl bg-gradient-to-br from-royal/20 to-cyan-accent/20 blur-2xl" aria-hidden="true" />
+                <div
+                  className="absolute -inset-4 rounded-2xl bg-gradient-to-br from-royal/20 to-cyan-accent/20 blur-2xl"
+                  aria-hidden="true"
+                />
                 <img
                   src={aboutImg}
                   alt="Niaga Prestasi team collaborating"
@@ -102,7 +138,9 @@ function AboutPage() {
                 />
                 <div className="absolute -bottom-6 -left-6 rounded-xl bg-royal text-white px-5 py-4 shadow-xl max-w-[220px]">
                   <div className="text-3xl font-display font-bold">10+</div>
-                  <div className="text-xs text-white/80 mt-0.5">Years of specialized IT services in banking & insurance</div>
+                  <div className="text-xs text-white/80 mt-0.5">
+                    Years of specialized IT services in banking & insurance
+                  </div>
                 </div>
               </div>
             </Reveal>
@@ -113,7 +151,11 @@ function AboutPage() {
       <section className="section-y bg-surface">
         <Container>
           <Reveal>
-            <SectionHeader eyebrow="What we stand for" title="Our values in delivery" description="Four principles that guide every engagement we take on." />
+            <SectionHeader
+              eyebrow="What we stand for"
+              title="Our values in delivery"
+              description="Four principles that guide every engagement we take on."
+            />
           </Reveal>
           <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {values.map((v, i) => (
@@ -140,7 +182,9 @@ function AboutPage() {
             {timeline.map((t, i) => (
               <Reveal key={t.title} delay={i * 0.06}>
                 <div className="rounded-xl border border-white/10 bg-white/[0.04] p-6 h-full">
-                  <div className="font-display text-3xl font-bold text-cyan-accent">{String(i + 1).padStart(2, "0")}</div>
+                  <div className="font-display text-3xl font-bold text-cyan-accent">
+                    {String(i + 1).padStart(2, "0")}
+                  </div>
                   <div className="h-px bg-white/10 w-10 mt-3" />
                   <h4 className="mt-4 font-display font-bold text-white text-lg">{t.title}</h4>
                   <p className="mt-2 text-sm text-white/70 leading-relaxed">{t.body}</p>

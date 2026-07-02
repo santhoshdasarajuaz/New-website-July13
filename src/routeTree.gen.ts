@@ -12,8 +12,13 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SiteRouteImport } from './routes/_site'
 import { Route as SiteIndexRouteImport } from './routes/_site.index'
 import { Route as SiteTrainingRouteImport } from './routes/_site.training'
+import { Route as SiteTermsRouteImport } from './routes/_site.terms'
 import { Route as SiteTalentStaffingRouteImport } from './routes/_site.talent-staffing'
+import { Route as SitePrivacyRouteImport } from './routes/_site.privacy'
+import { Route as SiteDisclaimerRouteImport } from './routes/_site.disclaimer'
+import { Route as SiteCookiesRouteImport } from './routes/_site.cookies'
 import { Route as SiteContactRouteImport } from './routes/_site.contact'
+import { Route as SiteAcceptableUseRouteImport } from './routes/_site.acceptable-use'
 import { Route as SiteAboutRouteImport } from './routes/_site.about'
 import { Route as SiteServicesIndexRouteImport } from './routes/_site.services.index'
 import { Route as SiteExpertiseIndexRouteImport } from './routes/_site.expertise.index'
@@ -36,14 +41,39 @@ const SiteTrainingRoute = SiteTrainingRouteImport.update({
   path: '/training',
   getParentRoute: () => SiteRoute,
 } as any)
+const SiteTermsRoute = SiteTermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => SiteRoute,
+} as any)
 const SiteTalentStaffingRoute = SiteTalentStaffingRouteImport.update({
   id: '/talent-staffing',
   path: '/talent-staffing',
   getParentRoute: () => SiteRoute,
 } as any)
+const SitePrivacyRoute = SitePrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteDisclaimerRoute = SiteDisclaimerRouteImport.update({
+  id: '/disclaimer',
+  path: '/disclaimer',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteCookiesRoute = SiteCookiesRouteImport.update({
+  id: '/cookies',
+  path: '/cookies',
+  getParentRoute: () => SiteRoute,
+} as any)
 const SiteContactRoute = SiteContactRouteImport.update({
   id: '/contact',
   path: '/contact',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteAcceptableUseRoute = SiteAcceptableUseRouteImport.update({
+  id: '/acceptable-use',
+  path: '/acceptable-use',
   getParentRoute: () => SiteRoute,
 } as any)
 const SiteAboutRoute = SiteAboutRouteImport.update({
@@ -85,8 +115,13 @@ const SiteCoursesSlugRoute = SiteCoursesSlugRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof SiteIndexRoute
   '/about': typeof SiteAboutRoute
+  '/acceptable-use': typeof SiteAcceptableUseRoute
   '/contact': typeof SiteContactRoute
+  '/cookies': typeof SiteCookiesRoute
+  '/disclaimer': typeof SiteDisclaimerRoute
+  '/privacy': typeof SitePrivacyRoute
   '/talent-staffing': typeof SiteTalentStaffingRoute
+  '/terms': typeof SiteTermsRoute
   '/training': typeof SiteTrainingRoute
   '/courses/$slug': typeof SiteCoursesSlugRoute
   '/expertise/$slug': typeof SiteExpertiseSlugRoute
@@ -97,8 +132,13 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/about': typeof SiteAboutRoute
+  '/acceptable-use': typeof SiteAcceptableUseRoute
   '/contact': typeof SiteContactRoute
+  '/cookies': typeof SiteCookiesRoute
+  '/disclaimer': typeof SiteDisclaimerRoute
+  '/privacy': typeof SitePrivacyRoute
   '/talent-staffing': typeof SiteTalentStaffingRoute
+  '/terms': typeof SiteTermsRoute
   '/training': typeof SiteTrainingRoute
   '/': typeof SiteIndexRoute
   '/courses/$slug': typeof SiteCoursesSlugRoute
@@ -112,8 +152,13 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_site': typeof SiteRouteWithChildren
   '/_site/about': typeof SiteAboutRoute
+  '/_site/acceptable-use': typeof SiteAcceptableUseRoute
   '/_site/contact': typeof SiteContactRoute
+  '/_site/cookies': typeof SiteCookiesRoute
+  '/_site/disclaimer': typeof SiteDisclaimerRoute
+  '/_site/privacy': typeof SitePrivacyRoute
   '/_site/talent-staffing': typeof SiteTalentStaffingRoute
+  '/_site/terms': typeof SiteTermsRoute
   '/_site/training': typeof SiteTrainingRoute
   '/_site/': typeof SiteIndexRoute
   '/_site/courses/$slug': typeof SiteCoursesSlugRoute
@@ -128,8 +173,13 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/acceptable-use'
     | '/contact'
+    | '/cookies'
+    | '/disclaimer'
+    | '/privacy'
     | '/talent-staffing'
+    | '/terms'
     | '/training'
     | '/courses/$slug'
     | '/expertise/$slug'
@@ -140,8 +190,13 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/about'
+    | '/acceptable-use'
     | '/contact'
+    | '/cookies'
+    | '/disclaimer'
+    | '/privacy'
     | '/talent-staffing'
+    | '/terms'
     | '/training'
     | '/'
     | '/courses/$slug'
@@ -154,8 +209,13 @@ export interface FileRouteTypes {
     | '__root__'
     | '/_site'
     | '/_site/about'
+    | '/_site/acceptable-use'
     | '/_site/contact'
+    | '/_site/cookies'
+    | '/_site/disclaimer'
+    | '/_site/privacy'
     | '/_site/talent-staffing'
+    | '/_site/terms'
     | '/_site/training'
     | '/_site/'
     | '/_site/courses/$slug'
@@ -193,6 +253,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SiteTrainingRouteImport
       parentRoute: typeof SiteRoute
     }
+    '/_site/terms': {
+      id: '/_site/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof SiteTermsRouteImport
+      parentRoute: typeof SiteRoute
+    }
     '/_site/talent-staffing': {
       id: '/_site/talent-staffing'
       path: '/talent-staffing'
@@ -200,11 +267,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SiteTalentStaffingRouteImport
       parentRoute: typeof SiteRoute
     }
+    '/_site/privacy': {
+      id: '/_site/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof SitePrivacyRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/disclaimer': {
+      id: '/_site/disclaimer'
+      path: '/disclaimer'
+      fullPath: '/disclaimer'
+      preLoaderRoute: typeof SiteDisclaimerRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/cookies': {
+      id: '/_site/cookies'
+      path: '/cookies'
+      fullPath: '/cookies'
+      preLoaderRoute: typeof SiteCookiesRouteImport
+      parentRoute: typeof SiteRoute
+    }
     '/_site/contact': {
       id: '/_site/contact'
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof SiteContactRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/acceptable-use': {
+      id: '/_site/acceptable-use'
+      path: '/acceptable-use'
+      fullPath: '/acceptable-use'
+      preLoaderRoute: typeof SiteAcceptableUseRouteImport
       parentRoute: typeof SiteRoute
     }
     '/_site/about': {
@@ -261,8 +356,13 @@ declare module '@tanstack/react-router' {
 
 interface SiteRouteChildren {
   SiteAboutRoute: typeof SiteAboutRoute
+  SiteAcceptableUseRoute: typeof SiteAcceptableUseRoute
   SiteContactRoute: typeof SiteContactRoute
+  SiteCookiesRoute: typeof SiteCookiesRoute
+  SiteDisclaimerRoute: typeof SiteDisclaimerRoute
+  SitePrivacyRoute: typeof SitePrivacyRoute
   SiteTalentStaffingRoute: typeof SiteTalentStaffingRoute
+  SiteTermsRoute: typeof SiteTermsRoute
   SiteTrainingRoute: typeof SiteTrainingRoute
   SiteIndexRoute: typeof SiteIndexRoute
   SiteCoursesSlugRoute: typeof SiteCoursesSlugRoute
@@ -275,8 +375,13 @@ interface SiteRouteChildren {
 
 const SiteRouteChildren: SiteRouteChildren = {
   SiteAboutRoute: SiteAboutRoute,
+  SiteAcceptableUseRoute: SiteAcceptableUseRoute,
   SiteContactRoute: SiteContactRoute,
+  SiteCookiesRoute: SiteCookiesRoute,
+  SiteDisclaimerRoute: SiteDisclaimerRoute,
+  SitePrivacyRoute: SitePrivacyRoute,
   SiteTalentStaffingRoute: SiteTalentStaffingRoute,
+  SiteTermsRoute: SiteTermsRoute,
   SiteTrainingRoute: SiteTrainingRoute,
   SiteIndexRoute: SiteIndexRoute,
   SiteCoursesSlugRoute: SiteCoursesSlugRoute,

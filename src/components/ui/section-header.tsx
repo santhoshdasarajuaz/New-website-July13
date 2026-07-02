@@ -20,7 +20,9 @@ export function SectionHeader({
     <div
       className={cn(
         "flex flex-col gap-4",
-        align === "center" ? "items-center text-center mx-auto max-w-3xl" : "items-start text-left max-w-3xl",
+        align === "center"
+          ? "items-center text-center mx-auto max-w-3xl"
+          : "items-start text-left max-w-3xl",
         className,
       )}
     >
@@ -42,9 +44,20 @@ export function SectionHeader({
       >
         {title}
       </h2>
-      <div className={cn("h-1 w-14 rounded-full", invert ? "bg-cyan-accent" : "bg-royal", align === "center" ? "" : "")} />
+      <div
+        className={cn(
+          "h-1 w-14 rounded-full",
+          invert ? "bg-cyan-accent" : "bg-royal",
+          align === "center" ? "" : "",
+        )}
+      />
       {description ? (
-        <p className={cn("text-base md:text-lg leading-relaxed", invert ? "text-white/70" : "text-ink-soft")}>
+        <p
+          className={cn(
+            "text-base md:text-lg leading-relaxed",
+            invert ? "text-white/70" : "text-ink-soft",
+          )}
+        >
           {description}
         </p>
       ) : null}

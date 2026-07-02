@@ -11,9 +11,16 @@ export const Route = createFileRoute("/_site/expertise/")({
   head: () => ({
     meta: [
       { title: "Expertise — Niaga Prestasi" },
-      { name: "description", content: "Deep domain expertise in insurance technology, banking IT and AI & Python solutions." },
+      {
+        name: "description",
+        content:
+          "Deep domain expertise in insurance technology, banking IT and AI & Python solutions.",
+      },
       { property: "og:title", content: "Expertise — Niaga Prestasi" },
-      { property: "og:description", content: "Banking, insurance and AI expertise for Malaysia's financial sector." },
+      {
+        property: "og:description",
+        content: "Banking, insurance and AI expertise for Malaysia's financial sector.",
+      },
       { property: "og:url", content: "/expertise" },
     ],
     links: [{ rel: "canonical", href: "/expertise" }],
@@ -26,10 +33,18 @@ function ExpertiseIndex() {
     <>
       <PageHero
         eyebrow="Domain expertise"
-        title={<>Where <span className="text-gradient-cyan">deep domain</span> meets modern engineering</>}
+        title={
+          <>
+            Where <span className="text-gradient-cyan">deep domain</span> meets modern engineering
+          </>
+        }
         description="We combine software engineering with deep knowledge of Malaysia's banking, insurance and AI landscape to deliver programs that succeed under regulatory scrutiny."
         crumbs={[{ label: "Home", to: "/" }, { label: "Expertise" }]}
-        actions={<CTAButton to="/contact" size="lg">Discuss your domain</CTAButton>}
+        actions={
+          <CTAButton to="/contact" size="lg">
+            Discuss your domain
+          </CTAButton>
+        }
       />
 
       <section className="section-y bg-white">
@@ -37,7 +52,13 @@ function ExpertiseIndex() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {expertise.map((e, i) => (
               <Reveal key={e.slug} delay={i * 0.05}>
-                <LinkCard to="/expertise/$slug" params={{ slug: e.slug }} Icon={e.icon} title={e.title} description={e.subtitle} />
+                <LinkCard
+                  to="/expertise/$slug"
+                  params={{ slug: e.slug }}
+                  Icon={e.icon}
+                  title={e.title}
+                  description={e.subtitle}
+                />
               </Reveal>
             ))}
           </div>

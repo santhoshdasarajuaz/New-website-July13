@@ -12,9 +12,16 @@ export const Route = createFileRoute("/_site/training")({
   head: () => ({
     meta: [
       { title: "IT Training Programs — Niaga Prestasi" },
-      { name: "description", content: "HRDC-approved IT training for university students, corporates, and government professionals in Malaysia." },
+      {
+        name: "description",
+        content:
+          "HRDC-approved IT training for university students, corporates, and government professionals in Malaysia.",
+      },
       { property: "og:title", content: "IT Training — Niaga Prestasi" },
-      { property: "og:description", content: "HRDC-approved training programs across banking IT, AI, data, cloud and more." },
+      {
+        property: "og:description",
+        content: "HRDC-approved training programs across banking IT, AI, data, cloud and more.",
+      },
       { property: "og:url", content: "/training" },
     ],
     links: [{ rel: "canonical", href: "/training" }],
@@ -23,17 +30,58 @@ export const Route = createFileRoute("/_site/training")({
 });
 
 const audiences = [
-  { icon: GraduationCap, title: "University Final Year Students", body: "Specialized IT training programs bridging academic knowledge and industry requirements — real-world software development, data science, and banking / insurance domain training.", bullets: ["Industry-relevant curriculum", "Hands-on project experience", "Mentorship from practitioners", "Career guidance & job referencing"] },
-  { icon: Building2, title: "Corporate IT Training", body: "Tailored corporate training programs to upskill your workforce in the latest IT technologies. Customized learning paths for software teams, business analysts, and IT professionals.", bullets: ["Customized learning paths", "Flexible scheduling", "On-site & virtual delivery", "Post-training support"] },
-  { icon: Landmark, title: "Government Training (HRDC Claimable)", body: "As a registered HRD Corp Training Provider, we deliver HRDC-claimable training programs for government agencies and GLC organizations, aligned to Ministry of Human Resources Malaysia's workforce development agenda.", bullets: ["HRDC/HRD Corp claimable", "Aligned to MOHR Malaysia", "Government-approved curriculum", "Certified trainers"] },
+  {
+    icon: GraduationCap,
+    title: "University Final Year Students",
+    body: "Specialized IT training programs bridging academic knowledge and industry requirements — real-world software development, data science, and banking / insurance domain training.",
+    bullets: [
+      "Industry-relevant curriculum",
+      "Hands-on project experience",
+      "Mentorship from practitioners",
+      "Career guidance & job referencing",
+    ],
+  },
+  {
+    icon: Building2,
+    title: "Corporate IT Training",
+    body: "Tailored corporate training programs to upskill your workforce in the latest IT technologies. Customized learning paths for software teams, business analysts, and IT professionals.",
+    bullets: [
+      "Customized learning paths",
+      "Flexible scheduling",
+      "On-site & virtual delivery",
+      "Post-training support",
+    ],
+  },
+  {
+    icon: Landmark,
+    title: "Government Training (HRDC Claimable)",
+    body: "As a registered HRD Corp Training Provider, we deliver HRDC-claimable training programs for government agencies and GLC organizations, aligned to Ministry of Human Resources Malaysia's workforce development agenda.",
+    bullets: [
+      "HRDC/HRD Corp claimable",
+      "Aligned to MOHR Malaysia",
+      "Government-approved curriculum",
+      "Certified trainers",
+    ],
+  },
 ];
 
 const topics = [
-  "Python Programming & Automation", "Data Science & Analytics", "Machine Learning & AI", "Java Development",
-  ".NET / C# Development", "Web Development (React, Angular)", "Database Management (SQL, Oracle)",
-  "Cloud Computing (Azure, AWS)", "DevOps & CI/CD", "Cybersecurity Fundamentals", "Business Analysis",
-  "Agile & Scrum Methodology", "API Development & Integration", "Insurance Domain Knowledge",
-  "Banking IT Systems", "Data Engineering & ETL",
+  "Python Programming & Automation",
+  "Data Science & Analytics",
+  "Machine Learning & AI",
+  "Java Development",
+  ".NET / C# Development",
+  "Web Development (React, Angular)",
+  "Database Management (SQL, Oracle)",
+  "Cloud Computing (Azure, AWS)",
+  "DevOps & CI/CD",
+  "Cybersecurity Fundamentals",
+  "Business Analysis",
+  "Agile & Scrum Methodology",
+  "API Development & Integration",
+  "Insurance Domain Knowledge",
+  "Banking IT Systems",
+  "Data Engineering & ETL",
 ];
 
 function TrainingPage() {
@@ -41,7 +89,11 @@ function TrainingPage() {
     <>
       <PageHero
         eyebrow="Professional development"
-        title={<>IT <span className="text-gradient-cyan">Training Programs</span></>}
+        title={
+          <>
+            IT <span className="text-gradient-cyan">Training Programs</span>
+          </>
+        }
         description="We empower individuals and organizations through structured IT training — from university students taking their first steps into the industry, to corporate teams and government professionals advancing their skills."
         crumbs={[{ label: "Home", to: "/" }, { label: "Training" }]}
       />
@@ -50,15 +102,26 @@ function TrainingPage() {
         <Container>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
             <Reveal>
-              <img src={trainingImg} alt="IT training in Malaysia" width={1280} height={900} loading="lazy" className="rounded-2xl border border-border shadow-xl w-full" />
+              <img
+                src={trainingImg}
+                alt="IT training in Malaysia"
+                width={1280}
+                height={900}
+                loading="lazy"
+                className="rounded-2xl border border-border shadow-xl w-full"
+              />
             </Reveal>
             <Reveal delay={0.1}>
               <div className="rounded-2xl border border-border bg-surface p-6 mb-4">
                 <div className="flex items-center gap-3">
                   <BadgeCheck className="h-8 w-8 text-royal" />
                   <div>
-                    <div className="font-display font-bold text-ink">HRDC Approved Training Provider</div>
-                    <div className="text-xs text-ink-soft mt-0.5 uppercase tracking-wider">HRD Corp & Claimable Training</div>
+                    <div className="font-display font-bold text-ink">
+                      HRDC Approved Training Provider
+                    </div>
+                    <div className="text-xs text-ink-soft mt-0.5 uppercase tracking-wider">
+                      HRD Corp & Claimable Training
+                    </div>
                   </div>
                 </div>
               </div>
@@ -69,8 +132,12 @@ function TrainingPage() {
                 description="Your trusted talent and technology development partner. We offer comprehensive training solutions for individuals, corporates, and government bodies across Malaysia. Our trainers are industry practitioners with real-world experience in banking, insurance, and enterprise IT."
               />
               <div className="mt-6 flex flex-wrap gap-3">
-                <CTAButton to="/courses" variant="secondary">Browse courses</CTAButton>
-                <CTAButton to="/contact" variant="ghost" withArrow={false}><span className="text-royal">Contact training team</span></CTAButton>
+                <CTAButton to="/courses" variant="secondary">
+                  Browse courses
+                </CTAButton>
+                <CTAButton to="/contact" variant="ghost" withArrow={false}>
+                  <span className="text-royal">Contact training team</span>
+                </CTAButton>
               </div>
             </Reveal>
           </div>
@@ -91,7 +158,8 @@ function TrainingPage() {
                   <ul className="mt-5 space-y-2">
                     {a.bullets.map((b) => (
                       <li key={b} className="flex items-start gap-2 text-sm text-ink">
-                        <CheckCircle2 className="h-4 w-4 text-royal mt-0.5 shrink-0" /> <span>{b}</span>
+                        <CheckCircle2 className="h-4 w-4 text-royal mt-0.5 shrink-0" />{" "}
+                        <span>{b}</span>
                       </li>
                     ))}
                   </ul>
@@ -105,11 +173,19 @@ function TrainingPage() {
       <section className="section-y bg-white">
         <Container>
           <Reveal>
-            <SectionHeader eyebrow="Training topics available" title="A wide range of IT disciplines" />
+            <SectionHeader
+              eyebrow="Training topics available"
+              title="A wide range of IT disciplines"
+            />
           </Reveal>
           <div className="mt-10 flex flex-wrap justify-center gap-2">
             {topics.map((t) => (
-              <span key={t} className="rounded-full border border-border bg-surface px-4 py-2 text-sm text-ink hover:border-royal hover:text-royal transition-colors">{t}</span>
+              <span
+                key={t}
+                className="rounded-full border border-border bg-surface px-4 py-2 text-sm text-ink hover:border-royal hover:text-royal transition-colors"
+              >
+                {t}
+              </span>
             ))}
           </div>
         </Container>

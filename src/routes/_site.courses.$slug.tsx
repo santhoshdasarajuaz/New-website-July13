@@ -36,13 +36,25 @@ function CourseDetail() {
   return (
     <>
       <PageHero
-        eyebrow={course.category === "htd" ? "HTD Model Course" : course.category === "upskill" ? "Upskill Course" : "Course Collection"}
+        eyebrow={
+          course.category === "htd"
+            ? "HTD Model Course"
+            : course.category === "upskill"
+              ? "Upskill Course"
+              : "Course Collection"
+        }
         title={course.title}
         description={course.tagline}
-        crumbs={[{ label: "Home", to: "/" }, { label: "Courses", to: "/courses" }, { label: course.title }]}
+        crumbs={[
+          { label: "Home", to: "/" },
+          { label: "Courses", to: "/courses" },
+          { label: course.title },
+        ]}
         actions={
           <>
-            <CTAButton to="/contact" search={{ subject: course.title }} size="lg">Enroll Now</CTAButton>
+            <CTAButton to="/contact" search={{ subject: course.title }} size="lg">
+              Enroll Now
+            </CTAButton>
             <CTAButton to="/courses" size="lg" variant="outline-white" withArrow={false}>
               <ArrowLeft className="h-4 w-4" /> Back to Courses
             </CTAButton>
@@ -55,7 +67,9 @@ function CourseDetail() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
             <div className="lg:col-span-2">
               <Reveal>
-                <span className="text-xs font-semibold uppercase tracking-[0.18em] text-royal">Overview</span>
+                <span className="text-xs font-semibold uppercase tracking-[0.18em] text-royal">
+                  Overview
+                </span>
                 <h2 className="mt-3 font-display text-3xl font-bold text-ink">About this course</h2>
                 <div className="mt-2 h-1 w-14 bg-royal rounded-full" />
                 <p className="mt-5 text-lg text-ink-soft leading-relaxed">{course.overview}</p>
@@ -65,7 +79,12 @@ function CourseDetail() {
                 <h3 className="mt-12 font-display text-2xl font-bold text-ink">Topics covered</h3>
                 <div className="mt-5 flex flex-wrap gap-2">
                   {course.topics.map((t) => (
-                    <span key={t} className="rounded-full border border-border bg-surface px-4 py-2 text-sm text-ink">{t}</span>
+                    <span
+                      key={t}
+                      className="rounded-full border border-border bg-surface px-4 py-2 text-sm text-ink"
+                    >
+                      {t}
+                    </span>
                   ))}
                 </div>
               </Reveal>
@@ -82,18 +101,26 @@ function CourseDetail() {
               </Reveal>
 
               <Reveal>
-                <h3 className="mt-12 font-display text-2xl font-bold text-ink">Learning outcomes</h3>
+                <h3 className="mt-12 font-display text-2xl font-bold text-ink">
+                  Learning outcomes
+                </h3>
                 <ul className="mt-5 grid grid-cols-1 md:grid-cols-2 gap-3">
                   {course.outcomes.map((o) => (
-                    <li key={o} className="flex items-start gap-2 rounded-lg border border-border bg-surface p-4 text-sm text-ink">
-                      <CheckCircle2 className="h-5 w-5 text-royal shrink-0 mt-0.5" /> <span>{o}</span>
+                    <li
+                      key={o}
+                      className="flex items-start gap-2 rounded-lg border border-border bg-surface p-4 text-sm text-ink"
+                    >
+                      <CheckCircle2 className="h-5 w-5 text-royal shrink-0 mt-0.5" />{" "}
+                      <span>{o}</span>
                     </li>
                   ))}
                 </ul>
               </Reveal>
 
               <Reveal>
-                <h3 className="mt-12 font-display text-2xl font-bold text-ink">Who should attend</h3>
+                <h3 className="mt-12 font-display text-2xl font-bold text-ink">
+                  Who should attend
+                </h3>
                 <ul className="mt-5 space-y-2">
                   {course.audience.map((a) => (
                     <li key={a} className="flex items-start gap-2 text-ink-soft">
@@ -112,20 +139,40 @@ function CourseDetail() {
                     <ul className="mt-4 space-y-3 text-sm">
                       <li className="flex items-start gap-3">
                         <Clock className="h-4 w-4 text-royal mt-0.5" />
-                        <div><div className="font-semibold text-ink">Duration</div><div className="text-ink-soft">{course.duration}</div></div>
+                        <div>
+                          <div className="font-semibold text-ink">Duration</div>
+                          <div className="text-ink-soft">{course.duration}</div>
+                        </div>
                       </li>
                       <li className="flex items-start gap-3">
                         <Layers className="h-4 w-4 text-royal mt-0.5" />
-                        <div><div className="font-semibold text-ink">Modules</div><div className="text-ink-soft">{course.modules} modules</div></div>
+                        <div>
+                          <div className="font-semibold text-ink">Modules</div>
+                          <div className="text-ink-soft">{course.modules} modules</div>
+                        </div>
                       </li>
                       <li className="flex items-start gap-3">
                         <Monitor className="h-4 w-4 text-royal mt-0.5" />
-                        <div><div className="font-semibold text-ink">Format</div><div className="text-ink-soft">{course.format}</div></div>
+                        <div>
+                          <div className="font-semibold text-ink">Format</div>
+                          <div className="text-ink-soft">{course.format}</div>
+                        </div>
                       </li>
                     </ul>
                     <div className="mt-6 space-y-2">
-                      <CTAButton to="/contact" search={{ subject: course.title }} className="w-full justify-center">Enroll Now</CTAButton>
-                      <Link to="/courses" className="block text-center text-sm text-royal font-semibold py-2 hover:underline">Back to Courses</Link>
+                      <CTAButton
+                        to="/contact"
+                        search={{ subject: course.title }}
+                        className="w-full justify-center"
+                      >
+                        Enroll Now
+                      </CTAButton>
+                      <Link
+                        to="/courses"
+                        className="block text-center text-sm text-royal font-semibold py-2 hover:underline"
+                      >
+                        Back to Courses
+                      </Link>
                     </div>
                   </div>
                 </Reveal>

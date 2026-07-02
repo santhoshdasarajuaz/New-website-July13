@@ -10,7 +10,8 @@ import {
 import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
-import { reportLovableError } from "../lib/lovable-error-reporting";
+import ogImageUrl from "../assets/hero-bg.jpg?url";
+import { reportClientError } from "../lib/error-reporting";
 
 function NotFoundComponent() {
   return (
@@ -38,7 +39,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   console.error(error);
   const router = useRouter();
   useEffect(() => {
-    reportLovableError(error, { boundary: "tanstack_root_error_component" });
+    reportClientError(error, { boundary: "tanstack_root_error_component" });
   }, [error]);
 
   return (
@@ -77,23 +78,37 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Niaga Prestasi — Technology, Training & Talent for Malaysia's Financial Sector" },
+      { title: "Niaga Prestasi Sdn Bhd | IT Services, Training & Talent Solutions Malaysia" },
       {
         name: "description",
         content:
-          "Niaga Prestasi Sdn Bhd — Malaysia's trusted IT services, banking and insurance technology, AI & data, and HRDC-approved training partner.",
+          "Malaysia-based IT services, banking and insurance technology, AI/data solutions, HRDC training, and talent development partner.",
       },
       { name: "author", content: "Niaga Prestasi Sdn Bhd" },
+      { name: "robots", content: "index, follow" },
       { property: "og:site_name", content: "Niaga Prestasi Sdn Bhd" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { property: "og:title", content: "Niaga Prestasi — Technology, Training & Talent for Malaysia's Financial Sector" },
-      { name: "twitter:title", content: "Niaga Prestasi — Technology, Training & Talent for Malaysia's Financial Sector" },
-      { name: "description", content: "Niaga Prestasi offers enterprise IT services, training, and talent solutions for Malaysia's financial sector." },
-      { property: "og:description", content: "Niaga Prestasi offers enterprise IT services, training, and talent solutions for Malaysia's financial sector." },
-      { name: "twitter:description", content: "Niaga Prestasi offers enterprise IT services, training, and talent solutions for Malaysia's financial sector." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/8aae2304-a3f5-4871-a05d-6342edf731fa/id-preview-c26086d3--f2899648-cb06-482c-8d4b-5a317a07702e.lovable.app-1782964274884.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/8aae2304-a3f5-4871-a05d-6342edf731fa/id-preview-c26086d3--f2899648-cb06-482c-8d4b-5a317a07702e.lovable.app-1782964274884.png" },
+      {
+        property: "og:title",
+        content: "Niaga Prestasi Sdn Bhd | IT Services, Training & Talent Solutions Malaysia",
+      },
+      {
+        name: "twitter:title",
+        content: "Niaga Prestasi Sdn Bhd | IT Services, Training & Talent Solutions Malaysia",
+      },
+      {
+        property: "og:description",
+        content:
+          "Malaysia-based IT services, banking and insurance technology, AI/data solutions, HRDC training, and talent development partner.",
+      },
+      {
+        name: "twitter:description",
+        content:
+          "Malaysia-based IT services, banking and insurance technology, AI/data solutions, HRDC training, and talent development partner.",
+      },
+      { property: "og:image", content: ogImageUrl },
+      { name: "twitter:image", content: ogImageUrl },
     ],
     links: [
       { rel: "stylesheet", href: appCss },

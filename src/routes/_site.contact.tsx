@@ -14,7 +14,11 @@ export const Route = createFileRoute("/_site/contact")({
   head: () => ({
     meta: [
       { title: "Contact — Niaga Prestasi" },
-      { name: "description", content: "Get in touch with Niaga Prestasi Sdn Bhd for IT services, training programs, or talent solutions in Malaysia." },
+      {
+        name: "description",
+        content:
+          "Get in touch with Niaga Prestasi Sdn Bhd for IT services, training programs, or talent solutions in Malaysia.",
+      },
       { property: "og:title", content: "Contact Niaga Prestasi" },
       { property: "og:description", content: "Talk to our Malaysia-based team." },
       { property: "og:url", content: "/contact" },
@@ -47,19 +51,28 @@ function ContactPage() {
                   <div>{company.address.city}</div>
                 </ContactCard>
                 <ContactCard icon={Phone} title="Phone">
-                  <a href={company.phoneHref} className="text-royal font-medium hover:underline">{company.phone}</a>
+                  <a href={company.phoneHref} className="text-royal font-medium hover:underline">
+                    {company.phone}
+                  </a>
                 </ContactCard>
                 <ContactCard icon={Mail} title="Email">
-                  <a href={company.emailHref} className="text-royal font-medium hover:underline">{company.email}</a>
+                  <a href={company.emailHref} className="text-royal font-medium hover:underline">
+                    {company.email}
+                  </a>
                 </ContactCard>
                 <ContactCard icon={Clock} title="Business Hours">
                   {company.hours.map((h) => (
-                    <div key={h.day}><span className="font-medium text-ink">{h.day}:</span> {h.time}</div>
+                    <div key={h.day}>
+                      <span className="font-medium text-ink">{h.day}:</span> {h.time}
+                    </div>
                   ))}
                 </ContactCard>
                 <div className="rounded-xl bg-royal p-6 text-white">
                   <h4 className="font-display font-bold text-lg">{company.name}</h4>
-                  <p className="mt-2 text-sm text-white/85">Your trusted partner for IT services, digital transformation, AI solutions, and professional IT training in Malaysia. HRDC-approved training provider.</p>
+                  <p className="mt-2 text-sm text-white/85">
+                    Your trusted partner for IT services, digital transformation, AI solutions, and
+                    professional IT training in Malaysia. HRDC-approved training provider.
+                  </p>
                 </div>
               </div>
             </Reveal>
@@ -83,7 +96,9 @@ function ContactPage() {
                 <div>
                   <MapPin className="h-8 w-8 mx-auto text-cyan-accent mb-2" />
                   <div className="font-display text-lg text-white">{company.address.line1}</div>
-                  <div>{company.address.line2}, {company.address.city}</div>
+                  <div>
+                    {company.address.line2}, {company.address.city}
+                  </div>
                 </div>
               </div>
             </div>
@@ -95,8 +110,14 @@ function ContactPage() {
 }
 
 function ContactCard({
-  icon: Icon, title, children,
-}: { icon: typeof MapPin; title: string; children: React.ReactNode }) {
+  icon: Icon,
+  title,
+  children,
+}: {
+  icon: typeof MapPin;
+  title: string;
+  children: React.ReactNode;
+}) {
   return (
     <div className="rounded-xl border border-border bg-white p-5 flex gap-4">
       <div className="h-11 w-11 shrink-0 rounded-lg bg-royal text-white flex items-center justify-center">
