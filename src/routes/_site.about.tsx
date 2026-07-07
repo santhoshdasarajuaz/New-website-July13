@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { CheckCircle2, Building2, GraduationCap, Users, ShieldCheck } from "lucide-react";
 import aboutImg from "@/assets/about-team.jpg";
 import { PageHero } from "@/components/sections/PageHero";
+import { ImageHighlightCard } from "@/components/common/ImageHighlightCard";
 import { Container } from "@/components/ui/container";
 import { SectionHeader } from "@/components/ui/section-header";
 import { Reveal } from "@/components/ui/reveal";
@@ -20,7 +21,8 @@ export const Route = createFileRoute("/_site/about")({
       { property: "og:title", content: "About Niaga Prestasi" },
       {
         property: "og:description",
-        content: "Your trusted technology and talent development partner in Malaysia.",
+        content:
+          "Malaysia-based IT services and talent development for banking, insurance and enterprise sectors.",
       },
       { property: "og:url", content: "/about" },
     ],
@@ -66,8 +68,7 @@ function AboutPage() {
         eyebrow="About Us"
         title={
           <>
-            Your trusted <span className="text-gradient-cyan">technology & talent</span> development
-            partner
+            A Malaysia-based <span className="text-gradient-cyan">technology & talent</span> team
           </>
         }
         description="Niaga Prestasi Sdn Bhd is a Malaysia-based IT services company delivering specialized technology solutions and professional training to the banking, insurance and enterprise sectors."
@@ -84,11 +85,15 @@ function AboutPage() {
               <h2 className="mt-3 font-display text-3xl md:text-4xl font-bold text-ink">
                 A Malaysia-based team with regional experience
               </h2>
-              <div className="mt-2 h-1 w-14 bg-royal rounded-full" />
+              <div
+                className="mt-2 h-[3px] w-12 rounded-full bg-linear-to-r from-royal to-cyan-accent"
+                aria-hidden="true"
+              />
               <div className="mt-6 space-y-4 text-ink-soft leading-relaxed">
                 <p>
-                  Headquartered in Bangsar, Kuala Lumpur, we combine deep domain expertise with
-                  cutting-edge technology to help organizations innovate, modernize and grow.
+                  Headquartered in Bangsar, Kuala Lumpur, we combine domain expertise with practical
+                  engineering to help organizations improve systems, upskill teams and scale
+                  delivery.
                 </p>
                 <p>
                   Our team of seasoned engineers, business analysts and trainers brings hands-on
@@ -117,31 +122,30 @@ function AboutPage() {
                 <CTAButton to="/services" variant="secondary">
                   Our services
                 </CTAButton>
-                <CTAButton to="/contact" variant="ghost" withArrow={false}>
-                  <span className="text-royal">Contact us</span>
+                <CTAButton
+                  to="/contact"
+                  variant="secondary"
+                  withArrow={false}
+                  className="!bg-transparent !text-royal !border !border-royal/30 hover:!bg-royal/5"
+                >
+                  Contact us
                 </CTAButton>
               </div>
             </Reveal>
             <Reveal delay={0.1}>
               <div className="relative">
                 <div
-                  className="absolute -inset-4 rounded-2xl bg-gradient-to-br from-royal/20 to-cyan-accent/20 blur-2xl"
+                  className="absolute -inset-4 rounded-2xl bg-linear-to-br from-royal/20 to-cyan-accent/20 blur-2xl"
                   aria-hidden="true"
                 />
-                <img
+                <ImageHighlightCard
                   src={aboutImg}
                   alt="Niaga Prestasi team collaborating"
-                  width={1280}
-                  height={960}
-                  loading="lazy"
-                  className="relative w-full rounded-2xl border border-border shadow-2xl object-cover"
+                  stat="10+"
+                  description="Years of specialized IT services in banking & insurance"
+                  overlayPosition="bottom-left"
+                  className="bg-white"
                 />
-                <div className="absolute -bottom-6 -left-6 rounded-xl bg-royal text-white px-5 py-4 shadow-xl max-w-[220px]">
-                  <div className="text-3xl font-display font-bold">10+</div>
-                  <div className="text-xs text-white/80 mt-0.5">
-                    Years of specialized IT services in banking & insurance
-                  </div>
-                </div>
               </div>
             </Reveal>
           </div>
@@ -173,7 +177,7 @@ function AboutPage() {
         </Container>
       </section>
 
-      <section className="section-y bg-navy text-white">
+      <section className="section-y bg-navy-deep text-white">
         <Container>
           <Reveal>
             <SectionHeader invert eyebrow="How we work" title="A proven four-step delivery model" />
@@ -181,7 +185,7 @@ function AboutPage() {
           <div className="mt-14 grid grid-cols-1 md:grid-cols-4 gap-6">
             {timeline.map((t, i) => (
               <Reveal key={t.title} delay={i * 0.06}>
-                <div className="rounded-xl border border-white/10 bg-white/[0.04] p-6 h-full">
+                <div className="rounded-xl border border-white/10 bg-white/4 p-6 h-full">
                   <div className="font-display text-3xl font-bold text-cyan-accent">
                     {String(i + 1).padStart(2, "0")}
                   </div>

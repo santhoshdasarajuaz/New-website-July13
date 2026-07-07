@@ -23,6 +23,10 @@ export function LegalPage({ doc }: { doc: LegalDoc }) {
             {doc.sections.map((s) => (
               <div key={s.heading} className="mt-10 first:mt-0">
                 <h2 className="font-display text-xl md:text-2xl font-bold text-ink">{s.heading}</h2>
+                <div
+                  className="mt-3 h-[3px] w-10 rounded-full bg-linear-to-r from-royal to-cyan-accent"
+                  aria-hidden="true"
+                />
                 <div className="mt-4 space-y-3 text-sm md:text-base text-ink-soft leading-relaxed">
                   {s.body.map((p) => (
                     <p key={p}>{p}</p>

@@ -1,12 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { GraduationCap, Building2, Landmark, BadgeCheck, CheckCircle2 } from "lucide-react";
-import trainingImg from "@/assets/training.jpg";
+import { GraduationCap, Building2, Landmark, CheckCircle2 } from "lucide-react";
 import { PageHero } from "@/components/sections/PageHero";
 import { Container } from "@/components/ui/container";
 import { SectionHeader } from "@/components/ui/section-header";
 import { Reveal } from "@/components/ui/reveal";
-import { CTAButton } from "@/components/ui/cta-button";
 import { CTASection } from "@/components/sections/CTASection";
+import { AnimatedTagMarquee } from "@/components/common/AnimatedTagMarquee";
+import { TrainingHrdcSection } from "@/components/sections/TrainingHrdcSection";
+import { trainingTopics } from "@/data/capabilities";
 
 export const Route = createFileRoute("/_site/training")({
   head: () => ({
@@ -65,25 +66,6 @@ const audiences = [
   },
 ];
 
-const topics = [
-  "Python Programming & Automation",
-  "Data Science & Analytics",
-  "Machine Learning & AI",
-  "Java Development",
-  ".NET / C# Development",
-  "Web Development (React, Angular)",
-  "Database Management (SQL, Oracle)",
-  "Cloud Computing (Azure, AWS)",
-  "DevOps & CI/CD",
-  "Cybersecurity Fundamentals",
-  "Business Analysis",
-  "Agile & Scrum Methodology",
-  "API Development & Integration",
-  "Insurance Domain Knowledge",
-  "Banking IT Systems",
-  "Data Engineering & ETL",
-];
-
 function TrainingPage() {
   return (
     <>
@@ -94,55 +76,11 @@ function TrainingPage() {
             IT <span className="text-gradient-cyan">Training Programs</span>
           </>
         }
-        description="We empower individuals and organizations through structured IT training — from university students taking their first steps into the industry, to corporate teams and government professionals advancing their skills."
+        description="Structured IT training for university graduates, corporate teams and government professionals — delivered by practitioners with enterprise delivery experience."
         crumbs={[{ label: "Home", to: "/" }, { label: "Training" }]}
       />
 
-      <section className="section-y bg-white">
-        <Container>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-            <Reveal>
-              <img
-                src={trainingImg}
-                alt="IT training in Malaysia"
-                width={1280}
-                height={900}
-                loading="lazy"
-                className="rounded-2xl border border-border shadow-xl w-full"
-              />
-            </Reveal>
-            <Reveal delay={0.1}>
-              <div className="rounded-2xl border border-border bg-surface p-6 mb-4">
-                <div className="flex items-center gap-3">
-                  <BadgeCheck className="h-8 w-8 text-royal" />
-                  <div>
-                    <div className="font-display font-bold text-ink">
-                      HRDC Approved Training Provider
-                    </div>
-                    <div className="text-xs text-ink-soft mt-0.5 uppercase tracking-wider">
-                      HRD Corp & Claimable Training
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <SectionHeader
-                align="left"
-                eyebrow="Looking to upskill, hire, or advance your IT career?"
-                title="Partner with Niaga Prestasi"
-                description="Your trusted talent and technology development partner. We offer comprehensive training solutions for individuals, corporates, and government bodies across Malaysia. Our trainers are industry practitioners with real-world experience in banking, insurance, and enterprise IT."
-              />
-              <div className="mt-6 flex flex-wrap gap-3">
-                <CTAButton to="/courses" variant="secondary">
-                  Browse courses
-                </CTAButton>
-                <CTAButton to="/contact" variant="ghost" withArrow={false}>
-                  <span className="text-royal">Contact training team</span>
-                </CTAButton>
-              </div>
-            </Reveal>
-          </div>
-        </Container>
-      </section>
+      <TrainingHrdcSection showActions={false} />
 
       <section className="section-y bg-surface">
         <Container>
@@ -178,15 +116,13 @@ function TrainingPage() {
               title="A wide range of IT disciplines"
             />
           </Reveal>
-          <div className="mt-10 flex flex-wrap justify-center gap-2">
-            {topics.map((t) => (
-              <span
-                key={t}
-                className="rounded-full border border-border bg-surface px-4 py-2 text-sm text-ink hover:border-royal hover:text-royal transition-colors"
-              >
-                {t}
-              </span>
-            ))}
+          <div className="mt-10">
+            <AnimatedTagMarquee
+              items={trainingTopics}
+              rowCount={3}
+              variant="light"
+              speed="normal"
+            />
           </div>
         </Container>
       </section>

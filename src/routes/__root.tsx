@@ -9,7 +9,7 @@ import {
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
 
-import appCss from "../styles.css?url";
+import appCss from "../styles/styles.css?url";
 import ogImageUrl from "../assets/hero-bg.jpg?url";
 import { reportClientError } from "../lib/error-reporting";
 

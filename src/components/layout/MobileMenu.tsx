@@ -44,7 +44,7 @@ export function MobileMenu({ open, onClose }: { open: boolean; onClose: () => vo
                     <Link
                       to={item.to}
                       onClick={onClose}
-                      className="flex-1 px-5 py-4 text-[15px] font-medium text-ink hover:text-royal"
+                      className="flex-1 px-5 py-4 text-[15px] font-medium text-ink hover:text-royal focus:outline-none focus-visible:outline-none focus-visible:text-royal"
                     >
                       {item.label}
                     </Link>
@@ -71,7 +71,7 @@ export function MobileMenu({ open, onClose }: { open: boolean; onClose: () => vo
                           to={c.to as string}
                           params={c.params as never}
                           onClick={onClose}
-                          className="block px-8 py-2.5 text-sm text-ink-soft hover:text-royal"
+                          className="block px-8 py-2.5 text-sm text-ink-soft hover:text-royal focus:outline-none focus-visible:outline-none focus-visible:text-royal"
                         >
                           {c.label}
                         </Link>

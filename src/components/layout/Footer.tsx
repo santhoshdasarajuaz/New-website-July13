@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { Linkedin, Facebook, Twitter, Instagram, MapPin, Phone, Mail } from "lucide-react";
 import { Container } from "@/components/ui/container";
 import { Logo } from "@/components/ui/logo";
+import { HrdCorpBadges } from "@/components/common/HrdCorpBadges";
 import { company } from "@/data/company";
 
 const columns: {
@@ -77,8 +78,7 @@ export function Footer() {
           <div className="lg:col-span-4">
             <Logo variant="light" />
             <p className="mt-5 text-sm leading-relaxed text-white/60 max-w-sm">
-              Malaysia's trusted IT services and talent development partner — specialized in
-              banking, insurance technology, AI solutions, and HRDC-approved professional training.
+              {company.footerBlurb}
             </p>
             <div className="mt-6 space-y-3 text-sm">
               <div className="flex items-start gap-3 text-white/70">
@@ -117,6 +117,9 @@ export function Footer() {
                 </a>
               ))}
             </div>
+            <div className="mt-6">
+              <HrdCorpBadges size="sm" />
+            </div>
           </div>
 
           <div className="lg:col-span-8 grid grid-cols-2 md:grid-cols-5 gap-6">
@@ -143,14 +146,9 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 pt-6 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-white/50">
+        <div className="mt-12 pt-6 border-t border-white/10 text-xs text-white/50">
           <div>
             © {new Date().getFullYear()} {company.name}. All rights reserved.
-          </div>
-          <div className="flex items-center gap-4">
-            <span className="inline-flex items-center gap-2 rounded-full border border-white/15 px-3 py-1 text-cyan-accent font-medium">
-              HRDC Approved Training Provider
-            </span>
           </div>
         </div>
       </Container>

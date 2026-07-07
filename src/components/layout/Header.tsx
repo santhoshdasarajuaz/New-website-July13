@@ -45,9 +45,7 @@ export function Header() {
       {/* Contact strip */}
       <div className="hidden lg:block bg-navy-deep text-white/80 text-xs">
         <Container className="flex items-center justify-between py-2">
-          <span className="tracking-wide">
-            Malaysia's trusted IT services, banking & insurance technology partner
-          </span>
+          <span className="tracking-wide">{company.headerStrip}</span>
           <div className="flex items-center gap-6">
             <a
               href={company.phoneHref}
@@ -67,7 +65,10 @@ export function Header() {
 
       {/* Main nav */}
       <Container className="flex items-center justify-between h-16 lg:h-20">
-        <Link to="/" className="shrink-0">
+        <Link
+          to="/"
+          className="shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-royal/30 focus-visible:ring-offset-2 focus-visible:ring-offset-white rounded-md"
+        >
           <Logo />
         </Link>
 
@@ -85,7 +86,11 @@ export function Header() {
                   <Link
                     to={item.to}
                     data-active={active}
-                    className="nav-underline flex items-center gap-1 px-3 py-2 text-sm font-medium text-ink hover:text-royal transition-colors"
+                    className={cn(
+                      "nav-underline flex items-center gap-1 px-3 py-2 text-sm font-medium text-ink hover:text-royal transition-colors rounded-md",
+                      "focus:outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-royal/30 focus-visible:ring-offset-2 focus-visible:ring-offset-white",
+                      active && "text-royal",
+                    )}
                   >
                     {item.label}
                     <ChevronDown
@@ -108,7 +113,7 @@ export function Header() {
                               key={c.label}
                               to={c.to as string}
                               params={c.params as never}
-                              className="block rounded-md px-3 py-2.5 text-sm text-ink hover:bg-surface-muted hover:text-royal transition-colors"
+                              className="block rounded-md px-3 py-2.5 text-sm text-ink hover:bg-surface-muted hover:text-royal transition-colors focus:outline-none focus-visible:outline-none focus-visible:bg-surface-muted focus-visible:text-royal"
                             >
                               {c.label}
                             </Link>
@@ -125,7 +130,11 @@ export function Header() {
                 key={item.label}
                 to={item.to}
                 data-active={active}
-                className="nav-underline px-3 py-2 text-sm font-medium text-ink hover:text-royal transition-colors"
+                className={cn(
+                  "nav-underline px-3 py-2 text-sm font-medium text-ink hover:text-royal transition-colors rounded-md",
+                  "focus:outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-royal/30 focus-visible:ring-offset-2 focus-visible:ring-offset-white",
+                  active && "text-royal",
+                )}
               >
                 {item.label}
               </Link>

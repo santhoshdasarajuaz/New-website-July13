@@ -9,6 +9,7 @@ import {
   Users,
   UserCheck,
 } from "lucide-react";
+import { AnimatedTagMarquee } from "@/components/common/AnimatedTagMarquee";
 import { PageHero } from "@/components/sections/PageHero";
 import { Container } from "@/components/ui/container";
 import { SectionHeader } from "@/components/ui/section-header";
@@ -23,7 +24,7 @@ export const Route = createFileRoute("/_site/talent-staffing")({
       {
         name: "description",
         content:
-          "IT talent sourcing, contract staffing, corporate training and career development — Malaysia's trusted talent partner.",
+          "IT talent sourcing, contract staffing, corporate training and career development for Malaysian organizations.",
       },
       { property: "og:title", content: "Talent & Staffing — Niaga Prestasi" },
       {
@@ -80,7 +81,7 @@ const services = [
   },
 ];
 
-const pills = [
+const talentTags = [
   "IT & Software Upskilling",
   "Professional Training & Workshops",
   "Career Guidance & Job Referencing",
@@ -102,41 +103,39 @@ function TalentPage() {
             Talent & <span className="text-gradient-cyan">Staffing Solutions</span>
           </>
         }
-        description="Whether you are looking to upskill your team, hire top IT talent, or advance your own IT career — Niaga Prestasi is your trusted partner for talent development and workforce solutions."
+        description="From upskilling programs and contract staffing to career guidance and recruitment — we support employers and IT professionals across Malaysia."
         crumbs={[{ label: "Home", to: "/" }, { label: "Talent & Staffing" }]}
       />
 
-      <section className="section-y bg-white">
+      <section className="section-y bg-navy-deep text-white overflow-hidden">
         <Container>
           <Reveal>
-            <div className="relative overflow-hidden rounded-2xl bg-royal text-white p-8 lg:p-12">
-              <div className="absolute inset-0 grid-pattern opacity-30" aria-hidden="true" />
+            <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/4 p-8 lg:p-12 backdrop-blur">
+              <div className="absolute inset-0 grid-pattern opacity-20" aria-hidden="true" />
+              <div className="absolute inset-0 bg-radial-glow opacity-40" aria-hidden="true" />
               <div className="relative max-w-3xl mx-auto text-center">
                 <h2 className="font-display text-2xl md:text-3xl font-bold">
                   Looking to Upskill, Hire, or Advance Your IT Career?
                 </h2>
-                <p className="mt-3 text-white/85">
-                  Partner with Niaga Prestasi Sdn Bhd — your trusted talent and technology
-                  development partner.
+                <div
+                  className="mx-auto mt-4 h-[3px] w-12 rounded-full bg-linear-to-r from-royal to-cyan-accent"
+                  aria-hidden="true"
+                />
+                <p className="mt-4 text-white/80">
+                  Speak with our team about hiring, staffing contracts, or structured upskilling for
+                  your workforce.
                 </p>
-                <div className="mt-6 flex flex-wrap justify-center gap-2">
-                  {pills.map((p) => (
-                    <span
-                      key={p}
-                      className="rounded-full border border-white/30 bg-white/10 px-3.5 py-1.5 text-xs font-medium"
-                    >
-                      {p}
-                    </span>
-                  ))}
-                </div>
                 <div className="mt-8">
-                  <CTAButton to="/contact" size="lg" variant="primary">
+                  <CTAButton to="/contact" size="lg">
                     Partner with us
                   </CTAButton>
                 </div>
               </div>
             </div>
           </Reveal>
+          <div className="mt-8">
+            <AnimatedTagMarquee items={talentTags} rowCount={2} variant="dark" speed="slow" />
+          </div>
         </Container>
       </section>
 
@@ -153,7 +152,7 @@ function TalentPage() {
             {services.map((s, i) => (
               <Reveal key={s.title} delay={i * 0.04}>
                 <div className="card-hover h-full rounded-xl border border-border bg-white p-6">
-                  <div className="h-11 w-11 rounded-lg bg-royal/10 text-royal flex items-center justify-center">
+                  <div className="h-11 w-11 rounded-lg bg-royal/10 text-royal flex items-center justify-center transition-colors duration-[280ms] group-hover:bg-royal">
                     <s.icon className="h-5 w-5" />
                   </div>
                   <h3 className="mt-4 font-display font-bold text-ink">{s.title}</h3>

@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { BentoGrid } from "@/components/common/BentoGrid";
 import { PageHero } from "@/components/sections/PageHero";
 import { Container } from "@/components/ui/container";
 import { LinkCard } from "@/components/ui/link-card";
@@ -6,6 +7,12 @@ import { Reveal } from "@/components/ui/reveal";
 import { CTASection } from "@/components/sections/CTASection";
 import { CTAButton } from "@/components/ui/cta-button";
 import { expertise } from "@/data/expertise";
+
+const layout = [
+  { slug: "banking-it", span: "lg" as const },
+  { slug: "insurance-technology", span: "md" as const },
+  { slug: "ai-python", span: "md" as const },
+];
 
 export const Route = createFileRoute("/_site/expertise/")({
   head: () => ({
@@ -50,19 +57,25 @@ function ExpertiseIndex() {
 
       <section className="section-y bg-white">
         <Container>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {expertise.map((e, i) => (
-              <Reveal key={e.slug} delay={i * 0.05}>
-                <LinkCard
-                  to="/expertise/$slug"
-                  params={{ slug: e.slug }}
-                  Icon={e.icon}
-                  title={e.title}
-                  description={e.subtitle}
-                />
-              </Reveal>
-            ))}
-          </div>
+          <BentoGrid>
+            {layout.map((item, i) => {
+              const e = expertise.find((x) => x.slug === item.slug);
+              if (!e) return null;
+              return (
+                <BentoGrid.Item key={e.slug} span={item.span}>
+                  <Reveal delay={i * 0.05}>
+                    <LinkCard
+                      to="/expertise/$slug"
+                      params={{ slug: e.slug }}
+                      Icon={e.icon}
+                      title={e.title}
+                      description={e.subtitle}
+                    />
+                  </Reveal>
+                </BentoGrid.Item>
+              );
+            })}
+          </BentoGrid>
         </Container>
       </section>
 

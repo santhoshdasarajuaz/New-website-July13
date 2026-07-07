@@ -23,14 +23,15 @@ function SiteLayout() {
   }, [pathname]);
 
   useEffect(() => {
-    const id = window.requestAnimationFrame(() => setFirstLoad(false));
-    return () => window.cancelAnimationFrame(id);
+    // Failsafe: ensure loader never blocks the app if something goes wrong.
+    const t = window.setTimeout(() => setFirstLoad(false), 2500);
+    return () => window.clearTimeout(t);
   }, []);
 
   const showTopBar = useMemo(() => !firstLoad && routerIsLoading, [firstLoad, routerIsLoading]);
   return (
     <div className="min-h-dvh flex flex-col bg-background">
-      {firstLoad ? <AppLoader /> : null}
+      {firstLoad ? <AppLoader onDone={() => setFirstLoad(false)} /> : null}
       {showTopBar ? <AppLoader variant="bar" /> : null}
       <Header />
       <main className="flex-1">

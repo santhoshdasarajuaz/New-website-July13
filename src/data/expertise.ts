@@ -37,7 +37,7 @@ export const expertise: Expertise[] = [
       },
       {
         title: "Payment Processing",
-        body: "Premium collection, refunds and settlement across multiple channels.",
+        body: "Integrated collection, refunds and settlement across multiple channels.",
       },
       {
         title: "Renewal Notifications",

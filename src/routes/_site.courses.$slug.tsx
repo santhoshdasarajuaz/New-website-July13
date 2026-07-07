@@ -71,7 +71,10 @@ function CourseDetail() {
                   Overview
                 </span>
                 <h2 className="mt-3 font-display text-3xl font-bold text-ink">About this course</h2>
-                <div className="mt-2 h-1 w-14 bg-royal rounded-full" />
+                <div
+                  className="mt-2 h-[3px] w-12 rounded-full bg-linear-to-r from-royal to-cyan-accent"
+                  aria-hidden="true"
+                />
                 <p className="mt-5 text-lg text-ink-soft leading-relaxed">{course.overview}</p>
               </Reveal>
 

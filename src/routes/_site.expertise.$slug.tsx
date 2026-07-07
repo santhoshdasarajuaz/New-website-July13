@@ -69,7 +69,7 @@ function ExpertiseDetail() {
         </Container>
       </section>
 
-      <section className="pb-20 lg:pb-24 bg-white">
+      <section className="pb-16 lg:pb-20 bg-white">
         <Container>
           <Reveal>
             <SectionHeader
@@ -94,7 +94,7 @@ function ExpertiseDetail() {
         </Container>
       </section>
 
-      <section className="section-y bg-navy text-white">
+      <section className="section-y bg-navy-deep text-white">
         <Container>
           <Reveal>
             <SectionHeader invert eyebrow="Outcomes" title="What clients achieve with us" />

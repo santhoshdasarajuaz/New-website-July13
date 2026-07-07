@@ -70,8 +70,8 @@ function ContactPage() {
                 <div className="rounded-xl bg-royal p-6 text-white">
                   <h4 className="font-display font-bold text-lg">{company.name}</h4>
                   <p className="mt-2 text-sm text-white/85">
-                    Your trusted partner for IT services, digital transformation, AI solutions, and
-                    professional IT training in Malaysia. HRDC-approved training provider.
+                    IT services, HRDC-aligned training, and talent support for organizations across
+                    Malaysia.
                   </p>
                 </div>
               </div>
@@ -79,7 +79,11 @@ function ContactPage() {
             <Reveal className="lg:col-span-3" delay={0.1}>
               <div className="mb-4">
                 <h2 className="font-display text-2xl font-bold text-ink">Send us a message</h2>
-                <p className="mt-1 text-ink-soft">We reply within one business day.</p>
+                <div
+                  className="mt-2 h-[3px] w-10 rounded-full bg-linear-to-r from-royal to-cyan-accent"
+                  aria-hidden="true"
+                />
+                <p className="mt-2 text-ink-soft">We reply within one business day.</p>
               </div>
               <ContactForm defaultSubject={subject} />
             </Reveal>
@@ -87,7 +91,7 @@ function ContactPage() {
         </Container>
       </section>
 
-      <section className="pb-20">
+      <section className="pb-16 lg:pb-20">
         <Container>
           <Reveal>
             <div className="rounded-2xl overflow-hidden border border-border bg-navy-deep aspect-[21/9] relative">
@@ -119,7 +123,7 @@ function ContactCard({
   children: React.ReactNode;
 }) {
   return (
-    <div className="rounded-xl border border-border bg-white p-5 flex gap-4">
+    <div className="rounded-xl border border-border bg-white p-5 flex gap-4 transition-[border-color,box-shadow] duration-[280ms] hover:border-royal/40 hover:shadow-[0_16px_40px_-28px_rgba(23,105,255,0.25)]">
       <div className="h-11 w-11 shrink-0 rounded-lg bg-royal text-white flex items-center justify-center">
         <Icon className="h-5 w-5" />
       </div>

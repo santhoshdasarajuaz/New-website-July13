@@ -2,10 +2,11 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Clock, Layers } from "lucide-react";
 import { PageHero } from "@/components/sections/PageHero";
 import { Container } from "@/components/ui/container";
-import { SectionHeader } from "@/components/ui/section-header";
 import { Reveal } from "@/components/ui/reveal";
 import { CTASection } from "@/components/sections/CTASection";
+import { HrdCorpBadges } from "@/components/common/HrdCorpBadges";
 import { htdCourses, upskillCourses } from "@/data/courses";
+import { CertificationTracks } from "@/components/sections/CertificationTracks";
 
 export const Route = createFileRoute("/_site/courses/")({
   head: () => ({
@@ -28,21 +29,6 @@ export const Route = createFileRoute("/_site/courses/")({
   component: CoursesIndex,
 });
 
-const partners = [
-  "AWS",
-  "Cisco",
-  "CompTIA",
-  "Databricks",
-  "EC-Council",
-  "Google Cloud",
-  "ISACA",
-  "Microsoft",
-  "Oracle",
-  "PMI",
-  "Snowflake",
-  "Splunk",
-];
-
 function CoursesIndex() {
   return (
     <>
@@ -53,9 +39,15 @@ function CoursesIndex() {
             Our <span className="text-gradient-cyan">Course Offerings</span>
           </>
         }
-        description="Choose from our comprehensive catalog of HTD Model Courses and Upskill Training Programs — each designed with industry partners and tailored for career advancement."
+        description="Choose from our comprehensive catalog of HTD Model Courses and Upskill Training Programs — each designed for practical, career-focused IT learning."
         crumbs={[{ label: "Home", to: "/" }, { label: "Courses" }]}
       />
+
+      <section className="border-b border-border bg-surface py-6">
+        <Container>
+          <HrdCorpBadges size="md" />
+        </Container>
+      </section>
 
       <section className="section-y bg-white">
         <Container>
@@ -80,23 +72,7 @@ function CoursesIndex() {
         </Container>
       </section>
 
-      <section className="section-y bg-surface">
-        <Container>
-          <Reveal>
-            <SectionHeader eyebrow="Certifications" title="Industry Partners & Certifications" />
-          </Reveal>
-          <div className="mt-10 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
-            {partners.map((p) => (
-              <div
-                key={p}
-                className="rounded-lg border border-border bg-white px-4 py-4 text-center text-sm font-medium text-ink hover:border-royal hover:text-royal transition-colors"
-              >
-                {p}
-              </div>
-            ))}
-          </div>
-        </Container>
-      </section>
+      <CertificationTracks />
 
       <CTASection />
     </>
@@ -136,7 +112,7 @@ function CourseColumn({
               key={c.slug}
               to="/courses/$slug"
               params={{ slug: c.slug }}
-              className="group flex items-center justify-between rounded-lg border border-border bg-white p-4 hover:border-royal hover:shadow-sm transition-all"
+              className="group flex items-center justify-between rounded-xl border border-border bg-white p-4 transition-[transform,box-shadow,border-color] duration-[280ms] hover:-translate-y-0.5 hover:border-royal/50 hover:shadow-[0_20px_50px_-36px_rgba(23,105,255,0.35)]"
             >
               <div>
                 <div className="font-semibold text-ink group-hover:text-royal transition-colors">

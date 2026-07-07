@@ -2,6 +2,16 @@ export const company = {
   name: "Niaga Prestasi Sdn Bhd",
   short: "Niaga Prestasi",
   tagline: "IT Services, Training & Talent Solutions for Malaysia",
+  heroHeading: "Build Technology. Train Talent. Grow Smarter.",
+  heroSubheading:
+    "Niaga Prestasi helps Malaysian businesses modernize software, strengthen teams, deliver AI and data solutions, and connect with skilled technology talent.",
+  metaDescription:
+    "Niaga Prestasi helps Malaysian businesses modernize software, strengthen teams, deliver AI and data solutions, and connect with skilled technology talent.",
+  ogDescription:
+    "IT services, AI and data solutions, cloud modernization, HRDC training, and talent solutions for Malaysian businesses.",
+  headerStrip: "IT services, training and talent solutions — Kuala Lumpur, Malaysia",
+  footerBlurb:
+    "Software delivery, HRDC-aligned training, and workforce support for banking, insurance, and enterprise teams across Malaysia.",
   phone: "+60 3-2202 1116",
   phoneHref: "tel:+60322021116",
   email: "info@niagaprestasi.com",
