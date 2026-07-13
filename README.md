@@ -6,8 +6,10 @@ Built with React 19, TanStack Router/Start, Tailwind CSS v4, and Motion.
 
 ## Prerequisites
 
-- Node.js 20+ (LTS recommended)
+- Node.js **22.12+** (required by Vite 8 — Node 16/18/20.18 will fail CI/Azure builds)
 - npm 10+
+
+Pin files for hosts/CI: `.nvmrc`, `.node-version`, and `engines` in `package.json`.
 
 ## Local development
 
@@ -42,9 +44,30 @@ Do not commit `.env`, `.env.local`, or any file containing secrets.
 ## Deployment
 
 1. Run `npm run build`
-2. Deploy the `dist/` output to your static host or Node adapter (TanStack Start)
+2. Static assets are in `dist/client/` (not `dist/` root). Server bundle is in `dist/server/`
 3. Set production environment variables on the host
 4. Configure security headers — see [`docs/DEPLOYMENT_SECURITY.md`](docs/DEPLOYMENT_SECURITY.md)
+
+### GitHub + Azure Static Web Apps (common client setup)
+
+**Repo root must contain this project’s `package.json`** (upload `niaga-elevate-hub-main` contents, not the parent folder).
+
+In the Azure SWA GitHub workflow (or Azure portal build settings), use:
+
+| Setting | Value |
+|---------|--------|
+| App location | `/` |
+| Output location | `dist/client` |
+| App build command | `npm ci && npm run build` |
+| Node version | `22` (set `NODE_VERSION=22` or rely on `.nvmrc`) |
+
+If the workflow still fails, open **GitHub → Actions → failed run** and check for:
+
+- `Unsupported engine` / Vite requiring Node `>=22.12.0` → Node version too old
+- `Could not find index.html` / empty site → wrong **Output location** (must be `dist/client`)
+- `npm ci` lockfile errors → run `npm install` locally and commit `package-lock.json`
+
+Contact form email needs SMTP env vars on the host (see `.env.example`). Pure static hosting serves the marketing pages; server/SMTP features need a Node-capable host (Azure App Service / SWA API).
 
 ## Project structure
 

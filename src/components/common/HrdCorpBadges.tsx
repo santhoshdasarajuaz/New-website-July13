@@ -13,7 +13,7 @@ const badges = [
 ] as const;
 
 const sizeClasses = {
-  sm: "h-16 w-16",
+  sm: "h-22 w-22",
   md: "h-20 w-20",
   lg: "h-24 w-24",
 };
@@ -28,13 +28,13 @@ export function HrdCorpBadges({
   withBackground?: boolean;
 }) {
   return (
-    <div className={cn("flex flex-wrap items-center gap-4", className)}>
+    <div className={cn("flex flex-wrap items-center gap-5", className)}>
       {badges.map((badge) => (
         <div
           key={badge.src}
           className={cn(
             "shrink-0 rounded-full overflow-hidden",
-            withBackground && "bg-white p-1 shadow-sm ring-1 ring-white/15",
+            withBackground && "bg-white p-1.5 shadow-sm ring-1 ring-white/20",
             sizeClasses[size],
           )}
         >

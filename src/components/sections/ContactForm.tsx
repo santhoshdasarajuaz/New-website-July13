@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Send, CheckCircle2 } from "lucide-react";
 import { z } from "zod";
+import { submitContactEnquiry } from "@/server/contact";
 
 const subjects = [
   "IT Services",
@@ -13,6 +14,7 @@ const subjects = [
 
 const contactSchema = z.object({
   fullName: z.string().trim().min(2, "Please enter your full name"),
+  company: z.string().trim().optional(),
   email: z.string().trim().email("Please enter a valid email"),
   phone: z.string().trim().optional(),
   subject: z.string().trim().min(1, "Please select a subject"),
@@ -23,12 +25,14 @@ export function ContactForm({ defaultSubject }: { defaultSubject?: string }) {
   const [subject, setSubject] = useState(defaultSubject || "");
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
     const parsed = contactSchema.safeParse({
       fullName: fd.get("fullName"),
+      company: fd.get("company"),
       email: fd.get("email"),
       phone: fd.get("phone"),
       subject: fd.get("subject"),
@@ -46,12 +50,32 @@ export function ContactForm({ defaultSubject }: { defaultSubject?: string }) {
     }
 
     setErrors({});
+    setErrorMessage("");
 
     setStatus("sending");
-    await new Promise((r) => setTimeout(r, 900));
-    setStatus("sent");
-    (e.target as HTMLFormElement).reset();
-    setSubject("");
+    try {
+      const honeypot = String(fd.get("website") ?? "");
+      await submitContactEnquiry({
+        data: {
+          fullName: parsed.data.fullName,
+          company: parsed.data.company ? String(parsed.data.company) : "",
+          email: parsed.data.email,
+          phone: parsed.data.phone ? String(parsed.data.phone) : "",
+          subject: parsed.data.subject,
+          message: parsed.data.message,
+          submittedFrom: window.location.pathname,
+          honeypot,
+        },
+      });
+      setStatus("sent");
+      (e.target as HTMLFormElement).reset();
+      setSubject("");
+    } catch (err) {
+      setStatus("error");
+      setErrorMessage(
+        err instanceof Error ? err.message : "Something went wrong. Please try again.",
+      );
+    }
   };
 
   if (status === "sent") {
@@ -77,6 +101,16 @@ export function ContactForm({ defaultSubject }: { defaultSubject?: string }) {
       onSubmit={onSubmit}
       className="rounded-xl border border-border bg-white p-6 lg:p-8 space-y-5"
     >
+      {/* Honeypot (spam trap) */}
+      <input
+        type="text"
+        name="website"
+        tabIndex={-1}
+        autoComplete="off"
+        className="hidden"
+        aria-hidden="true"
+      />
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         <Field
           label="Full name"
@@ -85,6 +119,12 @@ export function ContactForm({ defaultSubject }: { defaultSubject?: string }) {
           autoComplete="name"
           error={errors.fullName}
           placeholder="Your full name"
+        />
+        <Field
+          label="Company"
+          name="company"
+          autoComplete="organization"
+          placeholder="Company name (optional)"
         />
         <Field
           label="Email address"
@@ -152,6 +192,15 @@ export function ContactForm({ defaultSubject }: { defaultSubject?: string }) {
           </p>
         ) : null}
       </div>
+
+      {status === "error" ? (
+        <div
+          role="alert"
+          className="rounded-md border border-red-cta/20 bg-red-cta/5 px-4 py-3 text-sm text-red-cta"
+        >
+          {errorMessage || "Something went wrong. Please try again."}
+        </div>
+      ) : null}
 
       <button
         type="submit"

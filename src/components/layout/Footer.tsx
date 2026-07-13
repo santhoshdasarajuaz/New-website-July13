@@ -1,9 +1,30 @@
 import { Link } from "@tanstack/react-router";
-import { Linkedin, Facebook, Twitter, Instagram, MapPin, Phone, Mail } from "lucide-react";
+import { Linkedin, Facebook, Instagram, MapPin, Phone, Mail, type LucideIcon } from "lucide-react";
 import { Container } from "@/components/ui/container";
 import { Logo } from "@/components/ui/logo";
 import { HrdCorpBadges } from "@/components/common/HrdCorpBadges";
 import { company } from "@/data/company";
+
+function TikTokIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
+      <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 0 0-.79-.05A6.34 6.34 0 0 0 3.16 15.2a6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.34-6.34V8.73a8.2 8.2 0 0 0 4.75 1.5V6.78a4.84 4.84 0 0 1-1-.09z" />
+    </svg>
+  );
+}
+
+type SocialItem = {
+  icon: LucideIcon | typeof TikTokIcon;
+  href: string;
+  label: string;
+};
+
+const socialLinks: SocialItem[] = [
+  { icon: Linkedin, href: company.socials.linkedin, label: "LinkedIn" },
+  { icon: Facebook, href: company.socials.facebook, label: "Facebook" },
+  { icon: Instagram, href: company.socials.instagram, label: "Instagram" },
+  { icon: TikTokIcon, href: company.socials.tiktok, label: "TikTok" },
+].filter((item) => Boolean(item.href.trim()));
 
 const columns: {
   title: string;
@@ -100,23 +121,22 @@ export function Footer() {
                 <Mail className="h-4 w-4 text-cyan-accent shrink-0" /> {company.email}
               </a>
             </div>
-            <div className="mt-6 flex gap-2">
-              {[
-                { icon: Linkedin, href: company.socials.linkedin, label: "LinkedIn" },
-                { icon: Facebook, href: company.socials.facebook, label: "Facebook" },
-                { icon: Twitter, href: company.socials.twitter, label: "Twitter" },
-                { icon: Instagram, href: company.socials.instagram, label: "Instagram" },
-              ].map(({ icon: Icon, href, label }) => (
-                <a
-                  key={label}
-                  href={href}
-                  aria-label={label}
-                  className="h-9 w-9 inline-flex items-center justify-center rounded-md bg-white/5 hover:bg-royal transition-colors"
-                >
-                  <Icon className="h-4 w-4" />
-                </a>
-              ))}
-            </div>
+            {socialLinks.length > 0 && (
+              <div className="mt-6 flex gap-2">
+                {socialLinks.map(({ icon: Icon, href, label }) => (
+                  <a
+                    key={label}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={label}
+                    className="h-9 w-9 inline-flex items-center justify-center rounded-md bg-white/5 hover:bg-royal transition-colors"
+                  >
+                    <Icon className="h-4 w-4" />
+                  </a>
+                ))}
+              </div>
+            )}
             <div className="mt-6">
               <HrdCorpBadges size="sm" />
             </div>

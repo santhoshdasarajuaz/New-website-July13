@@ -25,11 +25,20 @@ export const company = {
     { day: "Monday – Friday", time: "9:00 AM – 6:00 PM" },
     { day: "Saturday", time: "9:00 AM – 1:00 PM" },
   ],
+  /**
+   * Social profile URLs — paste full https:// links below.
+   * Leave empty ("") to hide that icon until the page is ready.
+   * Icons appear automatically once a URL is pasted.
+   */
   socials: {
-    linkedin: "#",
-    facebook: "#",
-    twitter: "#",
-    instagram: "#",
+    // Paste LinkedIn company/page URL here, e.g. "https://www.linkedin.com/company/niaga-prestasi"
+    linkedin: "",
+    // Paste Facebook page URL here when ready
+    facebook: "",
+    // Paste Instagram profile URL here when ready
+    instagram: "",
+    // Paste TikTok profile URL here when ready
+    tiktok: "",
   },
   stats: [
     { value: "10+", label: "Years specialized IT services" },
