@@ -1,9 +1,0 @@
-{
-  "navigationFallback": {
-    "rewrite": "/index.html",
-    "exclude": ["/assets/*", "/*.{css,js,jpg,jpeg,png,gif,svg,webp,ico,json,woff,woff2}"]
-  },
-  "platform": {
-    "apiRuntime": "node:22"
-  }
-}

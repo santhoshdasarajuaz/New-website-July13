@@ -2,85 +2,72 @@
 
 Marketing website for **Niaga Prestasi Sdn Bhd** — IT services, HRDC-aligned training, and talent solutions for Malaysia.
 
-Built with React 19, TanStack Router/Start, Tailwind CSS v4, and Motion.
+**Stack:** React 19 + **TanStack Start** (Vite) + TanStack Router + Tailwind CSS v4 + Motion.  
+Not a plain Vite SPA, Remix, or React Router v6 app — it is a TanStack Start full-stack app configured with **static prerender** for Azure Static Web Apps Free.
 
 ## Prerequisites
 
-- Node.js **22.12+** (required by Vite 8 — Node 16/18/20.18 will fail CI/Azure builds)
+- Node.js **22.12.0+** (Vite 8 requires `^20.19.0 || >=22.12.0`; this repo pins **22.12.0**)
 - npm 10+
 
-Pin files for hosts/CI: `.nvmrc`, `.node-version`, and `engines` in `package.json`.
+Pin files: `.nvmrc`, `.node-version`, and `engines` in `package.json`.
 
 ## Local development
 
 ```bash
-npm install
-cp .env.example .env.local   # optional; set VITE_PUBLIC_SITE_URL for local dev
+npm ci
+cp .env.example .env.local   # optional
 npm run dev
 ```
-
-Open the URL shown in the terminal (default Vite port).
 
 ## Scripts
 
 | Command | Description |
 |---------|-------------|
 | `npm run dev` | Start development server |
-| `npm run build` | Production build to `dist/` |
+| `npm run build` | Production build + static prerender → `dist/client/` |
 | `npm run preview` | Preview production build locally |
 | `npm run lint` | ESLint |
 | `npm run format` | Prettier |
 
-## Environment variables
+## Azure Static Web Apps (Free tier)
 
-Copy [`.env.example`](.env.example) to `.env.local` for local development.
+Deploy the **prerendered static site** from `dist/client` (includes `index.html` and `staticwebapp.config.json`).
 
-| Variable | Description |
-|----------|-------------|
-| `VITE_PUBLIC_SITE_URL` | Public site URL (optional; for canonical URLs if extended) |
-
-Do not commit `.env`, `.env.local`, or any file containing secrets.
-
-## Deployment
-
-1. Run `npm run build`
-2. Static assets are in `dist/client/` (not `dist/` root). Server bundle is in `dist/server/`
-3. Set production environment variables on the host
-4. Configure security headers — see [`docs/DEPLOYMENT_SECURITY.md`](docs/DEPLOYMENT_SECURITY.md)
-
-### GitHub + Azure Static Web Apps (common client setup)
-
-**Repo root must contain this project’s `package.json`** (upload `niaga-elevate-hub-main` contents, not the parent folder).
-
-In the Azure SWA GitHub workflow (or Azure portal build settings), use:
+### Exact portal / workflow settings
 
 | Setting | Value |
 |---------|--------|
-| App location | `/` |
-| Output location | `dist/client` |
-| App build command | `npm ci && npm run build` |
-| Node version | `22` (set `NODE_VERSION=22` or rely on `.nvmrc`) |
+| **App location** | `/` (repo root) — *or* when using this repo’s GitHub Action with `skip_app_build`: deploy folder is `dist/client` |
+| **API location** | *(empty — no API)* |
+| **Output location** | `dist/client` |
+| **Node version** | `22.12.0` (from `.nvmrc`) |
+| **Build command** | `npm ci && npm run build` |
 
-If the workflow still fails, open **GitHub → Actions → failed run** and check for:
+Recommended: use the included workflow [`.github/workflows/azure-static-web-apps.yml`](.github/workflows/azure-static-web-apps.yml), which builds with Node from `.nvmrc`, then uploads `dist/client` with `skip_app_build: true`.
 
-- `Unsupported engine` / Vite requiring Node `>=22.12.0` → Node version too old
-- `Could not find index.html` / empty site → wrong **Output location** (must be `dist/client`)
-- `npm ci` lockfile errors → run `npm install` locally and commit `package-lock.json`
+After creating the Static Web App in Azure (GitHub connected), add the deployment token as a GitHub secret named:
 
-Contact form email needs SMTP env vars on the host (see `.env.example`). Pure static hosting serves the marketing pages; server/SMTP features need a Node-capable host (Azure App Service / SWA API).
+`AZURE_STATIC_WEB_APPS_API_TOKEN`
 
-## Project structure
+### Custom domain (GoDaddy)
 
-```
-src/
-  components/   # UI, layout, sections, cards
-  data/         # Navigation, services, courses, company copy
-  routes/       # TanStack file-based routes (do not rename casually)
-  styles/       # Global CSS and design tokens
-  lib/          # Utilities and error reporting
-  utils/        # SEO, validation, route helpers
-```
+1. Azure SWA → **Custom domains** → add domain  
+2. Add the DNS records Azure shows in GoDaddy DNS  
+3. Wait for validation + HTTPS certificate  
+
+### Contact form
+
+Works on Free tier via **mailto** (opens the visitor’s email app). No SMTP / Node server required.
+
+## Environment variables
+
+| Variable | Description |
+|----------|-------------|
+| `VITE_PUBLIC_SITE_URL` | Optional public site URL |
+
+Do not commit `.env` or `.env.local`.
 
 ## Security
 
-See [`docs/DEPLOYMENT_SECURITY.md`](docs/DEPLOYMENT_SECURITY.md) for recommended production headers and CSP guidance.
+See [`docs/DEPLOYMENT_SECURITY.md`](docs/DEPLOYMENT_SECURITY.md).

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Send, CheckCircle2 } from "lucide-react";
 import { z } from "zod";
-import { submitContactEnquiry } from "@/server/contact";
+import { company } from "@/data/company";
 
 const subjects = [
   "IT Services",
@@ -21,15 +21,27 @@ const contactSchema = z.object({
   message: z.string().trim().min(10, "Please enter a message (at least 10 characters)"),
 });
 
+/**
+ * Contact form for Azure Static Web Apps Free (static hosting).
+ * Opens the visitor's email client via mailto — no Node/SMTP server required.
+ */
 export function ContactForm({ defaultSubject }: { defaultSubject?: string }) {
   const [subject, setSubject] = useState(defaultSubject || "");
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [errorMessage, setErrorMessage] = useState<string>("");
 
-  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const fd = new FormData(e.currentTarget);
+    const form = e.currentTarget;
+    const fd = new FormData(form);
+
+    // Honeypot — bots fill this; silently accept
+    if (String(fd.get("website") ?? "").trim()) {
+      setStatus("sent");
+      return;
+    }
+
     const parsed = contactSchema.safeParse({
       fullName: fd.get("fullName"),
       company: fd.get("company"),
@@ -51,30 +63,34 @@ export function ContactForm({ defaultSubject }: { defaultSubject?: string }) {
 
     setErrors({});
     setErrorMessage("");
-
     setStatus("sending");
+
+    const data = parsed.data;
+    const body = [
+      data.message,
+      "",
+      "---",
+      `Name: ${data.fullName}`,
+      data.company ? `Company: ${data.company}` : null,
+      `Email: ${data.email}`,
+      data.phone ? `Phone: ${data.phone}` : null,
+      `Page: ${window.location.pathname}`,
+    ]
+      .filter(Boolean)
+      .join("\n");
+
+    const mailto = `mailto:${company.email}?subject=${encodeURIComponent(
+      `[Website] ${data.subject}`,
+    )}&body=${encodeURIComponent(body)}`;
+
     try {
-      const honeypot = String(fd.get("website") ?? "");
-      await submitContactEnquiry({
-        data: {
-          fullName: parsed.data.fullName,
-          company: parsed.data.company ? String(parsed.data.company) : "",
-          email: parsed.data.email,
-          phone: parsed.data.phone ? String(parsed.data.phone) : "",
-          subject: parsed.data.subject,
-          message: parsed.data.message,
-          submittedFrom: window.location.pathname,
-          honeypot,
-        },
-      });
+      window.location.href = mailto;
       setStatus("sent");
-      (e.target as HTMLFormElement).reset();
+      form.reset();
       setSubject("");
-    } catch (err) {
+    } catch {
       setStatus("error");
-      setErrorMessage(
-        err instanceof Error ? err.message : "Something went wrong. Please try again.",
-      );
+      setErrorMessage(`Unable to open email. Please write to ${company.email} instead.`);
     }
   };
 
@@ -82,9 +98,13 @@ export function ContactForm({ defaultSubject }: { defaultSubject?: string }) {
     return (
       <div className="rounded-xl border border-border bg-white p-10 text-center">
         <CheckCircle2 className="h-12 w-12 text-royal mx-auto" />
-        <h3 className="mt-4 font-display text-2xl font-bold text-ink">Message received</h3>
+        <h3 className="mt-4 font-display text-2xl font-bold text-ink">Ready to send</h3>
         <p className="mt-2 text-ink-soft">
-          Thanks for reaching out. Our team will get back to you within one business day.
+          Your email app should open with the message. If it does not, email us at{" "}
+          <a href={company.emailHref} className="text-royal font-semibold hover:underline">
+            {company.email}
+          </a>
+          .
         </p>
         <button
           onClick={() => setStatus("idle")}
@@ -101,7 +121,6 @@ export function ContactForm({ defaultSubject }: { defaultSubject?: string }) {
       onSubmit={onSubmit}
       className="rounded-xl border border-border bg-white p-6 lg:p-8 space-y-5"
     >
-      {/* Honeypot (spam trap) */}
       <input
         type="text"
         name="website"
@@ -208,7 +227,7 @@ export function ContactForm({ defaultSubject }: { defaultSubject?: string }) {
         className="w-full inline-flex items-center justify-center gap-2 rounded-md bg-royal px-6 py-3.5 text-white font-semibold hover:bg-royal-dark transition-colors disabled:opacity-70"
       >
         {status === "sending" ? (
-          "Sending..."
+          "Opening email..."
         ) : (
           <>
             <Send className="h-4 w-4" /> Send Message
