@@ -3,10 +3,8 @@
 
 name: Build and deploy Node.js app to Azure Web App - npsb-webapp
 
+# Disabled auto-run: site targets Azure Static Web Apps Free, not App Service.
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
 
 jobs:
