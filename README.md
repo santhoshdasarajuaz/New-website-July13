@@ -58,7 +58,12 @@ After creating the Static Web App in Azure (GitHub connected), add the deploymen
 
 ### Contact form
 
-Works on Free tier via **mailto** (opens the visitor’s email app). No SMTP / Node server required.
+Submissions are sent via **FormSubmit** (browser → FormSubmit API → Zoho Mail).  
+Recipients: `info@niagaprestasi.com` (To) and `elill@niagaprestasi.com` (CC).
+
+**One-time activation:** the first live submit sends an activation email to `info@niagaprestasi.com`. Open Zoho Mail and click **Confirm** so delivery starts. After that, every enquiry lands in both Zoho inboxes.
+
+No SMTP / Node server / Nodemailer on Azure Static Web Apps Free.
 
 ## Environment variables
 

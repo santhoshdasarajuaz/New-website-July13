@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Send, CheckCircle2 } from "lucide-react";
 import { z } from "zod";
-import { company } from "@/data/company";
+import { CONTACT_RECIPIENTS } from "@/config/contact";
 
 const subjects = [
   "IT Services",
@@ -22,8 +22,9 @@ const contactSchema = z.object({
 });
 
 /**
- * Contact form for Azure Static Web Apps Free (static hosting).
- * Opens the visitor's email client via mailto — no Node/SMTP server required.
+ * Contact form for Azure Static Web Apps Free.
+ * Submits via FormSubmit (browser → FormSubmit API → Zoho Mail inboxes).
+ * No Node/SMTP server required.
  */
 export function ContactForm({ defaultSubject }: { defaultSubject?: string }) {
   const [subject, setSubject] = useState(defaultSubject || "");
@@ -31,7 +32,7 @@ export function ContactForm({ defaultSubject }: { defaultSubject?: string }) {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [errorMessage, setErrorMessage] = useState<string>("");
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
     const fd = new FormData(form);
@@ -66,31 +67,57 @@ export function ContactForm({ defaultSubject }: { defaultSubject?: string }) {
     setStatus("sending");
 
     const data = parsed.data;
-    const body = [
-      data.message,
-      "",
-      "---",
-      `Name: ${data.fullName}`,
-      data.company ? `Company: ${data.company}` : null,
-      `Email: ${data.email}`,
-      data.phone ? `Phone: ${data.phone}` : null,
-      `Page: ${window.location.pathname}`,
-    ]
-      .filter(Boolean)
-      .join("\n");
-
-    const mailto = `mailto:${company.email}?subject=${encodeURIComponent(
-      `[Website] ${data.subject}`,
-    )}&body=${encodeURIComponent(body)}`;
 
     try {
-      window.location.href = mailto;
+      // FormSubmit delivers to Zoho-hosted mailboxes (no Node backend).
+      // Primary + CC so both inboxes receive the enquiry.
+      const response = await fetch(
+        `https://formsubmit.co/ajax/${CONTACT_RECIPIENTS.primary}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            name: data.fullName,
+            email: data.email,
+            company: data.company || "—",
+            phone: data.phone || "—",
+            subject: data.subject,
+            message: data.message,
+            page: typeof window !== "undefined" ? window.location.pathname : "/",
+            _replyto: data.email,
+            _subject: `[Niaga Website] ${data.subject}`,
+            _cc: CONTACT_RECIPIENTS.secondary,
+            _template: "table",
+            _captcha: "false",
+          }),
+        },
+      );
+
+      const result = (await response.json().catch(() => null)) as {
+        success?: string | boolean;
+        message?: string;
+      } | null;
+
+      if (!response.ok || result?.success === "false" || result?.success === false) {
+        throw new Error(
+          result?.message ||
+            `Unable to send. Please email ${CONTACT_RECIPIENTS.primary} directly.`,
+        );
+      }
+
       setStatus("sent");
       form.reset();
       setSubject("");
-    } catch {
+    } catch (err) {
       setStatus("error");
-      setErrorMessage(`Unable to open email. Please write to ${company.email} instead.`);
+      setErrorMessage(
+        err instanceof Error
+          ? err.message
+          : `Unable to send. Please email ${CONTACT_RECIPIENTS.primary} directly.`,
+      );
     }
   };
 
@@ -98,13 +125,9 @@ export function ContactForm({ defaultSubject }: { defaultSubject?: string }) {
     return (
       <div className="rounded-xl border border-border bg-white p-10 text-center">
         <CheckCircle2 className="h-12 w-12 text-royal mx-auto" />
-        <h3 className="mt-4 font-display text-2xl font-bold text-ink">Ready to send</h3>
+        <h3 className="mt-4 font-display text-2xl font-bold text-ink">Message sent</h3>
         <p className="mt-2 text-ink-soft">
-          Your email app should open with the message. If it does not, email us at{" "}
-          <a href={company.emailHref} className="text-royal font-semibold hover:underline">
-            {company.email}
-          </a>
-          .
+          Thanks for reaching out. Our team will get back to you within one business day.
         </p>
         <button
           onClick={() => setStatus("idle")}
@@ -227,7 +250,7 @@ export function ContactForm({ defaultSubject }: { defaultSubject?: string }) {
         className="w-full inline-flex items-center justify-center gap-2 rounded-md bg-royal px-6 py-3.5 text-white font-semibold hover:bg-royal-dark transition-colors disabled:opacity-70"
       >
         {status === "sending" ? (
-          "Opening email..."
+          "Sending..."
         ) : (
           <>
             <Send className="h-4 w-4" /> Send Message
