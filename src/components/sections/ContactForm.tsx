@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Send, CheckCircle2 } from "lucide-react";
 import { z } from "zod";
-import { CONTACT_RECIPIENTS } from "@/config/contact";
+import { CONTACT_CONFIG } from "@/config/contact";
+import { submitContactEnquiry } from "@/services/contact";
 
 const subjects = [
   "IT Services",
@@ -22,26 +23,22 @@ const contactSchema = z.object({
 });
 
 /**
- * Contact form for Azure Static Web Apps Free.
- * Submits via FormSubmit (browser → FormSubmit API → Zoho Mail inboxes).
- * No Node/SMTP server required.
+ * Contact / Get Started form.
+ * Calls `submitContactEnquiry` only — provider is chosen in `src/config/contact.ts`.
  */
 export function ContactForm({ defaultSubject }: { defaultSubject?: string }) {
   const [subject, setSubject] = useState(defaultSubject || "");
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [mailtoHref, setMailtoHref] = useState<string | undefined>();
+
+  const { primary, secondary } = CONTACT_CONFIG.recipients;
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
     const fd = new FormData(form);
-
-    // Honeypot — bots fill this; silently accept
-    if (String(fd.get("website") ?? "").trim()) {
-      setStatus("sent");
-      return;
-    }
 
     const parsed = contactSchema.safeParse({
       fullName: fd.get("fullName"),
@@ -64,72 +61,44 @@ export function ContactForm({ defaultSubject }: { defaultSubject?: string }) {
 
     setErrors({});
     setErrorMessage("");
+    setMailtoHref(undefined);
     setStatus("sending");
 
-    const data = parsed.data;
+    const result = await submitContactEnquiry({
+      ...parsed.data,
+      company: parsed.data.company ? String(parsed.data.company) : "",
+      phone: parsed.data.phone ? String(parsed.data.phone) : "",
+      submittedFrom: window.location.pathname,
+      honeypot: String(fd.get("website") ?? ""),
+    });
 
-    try {
-      // FormSubmit delivers to Zoho-hosted mailboxes (no Node backend).
-      // Primary + CC so both inboxes receive the enquiry.
-      const response = await fetch(
-        `https://formsubmit.co/ajax/${CONTACT_RECIPIENTS.primary}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify({
-            name: data.fullName,
-            email: data.email,
-            company: data.company || "—",
-            phone: data.phone || "—",
-            subject: data.subject,
-            message: data.message,
-            page: typeof window !== "undefined" ? window.location.pathname : "/",
-            _replyto: data.email,
-            _subject: `[Niaga Website] ${data.subject}`,
-            _cc: CONTACT_RECIPIENTS.secondary,
-            _template: "table",
-            _captcha: "false",
-          }),
-        },
-      );
-
-      const result = (await response.json().catch(() => null)) as {
-        success?: string | boolean;
-        message?: string;
-      } | null;
-
-      if (!response.ok || result?.success === "false" || result?.success === false) {
-        throw new Error(
-          result?.message ||
-            `Unable to send. Please email ${CONTACT_RECIPIENTS.primary} directly.`,
-        );
-      }
-
+    if (result.ok) {
       setStatus("sent");
       form.reset();
       setSubject("");
-    } catch (err) {
-      setStatus("error");
-      setErrorMessage(
-        err instanceof Error
-          ? err.message
-          : `Unable to send. Please email ${CONTACT_RECIPIENTS.primary} directly.`,
-      );
+      return;
     }
+
+    setStatus("error");
+    setErrorMessage(result.message);
+    setMailtoHref(result.mailtoHref);
   };
 
   if (status === "sent") {
     return (
-      <div className="rounded-xl border border-border bg-white p-10 text-center">
+      <div
+        role="status"
+        aria-live="polite"
+        className="rounded-xl border border-border bg-white p-10 text-center"
+      >
         <CheckCircle2 className="h-12 w-12 text-royal mx-auto" />
-        <h3 className="mt-4 font-display text-2xl font-bold text-ink">Message sent</h3>
-        <p className="mt-2 text-ink-soft">
-          Thanks for reaching out. Our team will get back to you within one business day.
+        <h3 className="mt-4 font-display text-2xl font-bold text-ink">Thank you</h3>
+        <p className="mt-2 text-ink-soft max-w-md mx-auto">
+          Your enquiry has been sent to the Niaga Prestasi team. We aim to reply within one
+          business day.
         </p>
         <button
+          type="button"
           onClick={() => setStatus("idle")}
           className="mt-6 text-sm font-semibold text-royal hover:underline"
         >
@@ -142,16 +111,20 @@ export function ContactForm({ defaultSubject }: { defaultSubject?: string }) {
   return (
     <form
       onSubmit={onSubmit}
-      className="rounded-xl border border-border bg-white p-6 lg:p-8 space-y-5"
+      className="relative rounded-xl border border-border bg-white p-6 lg:p-8 space-y-5"
+      noValidate
     >
-      <input
-        type="text"
-        name="website"
-        tabIndex={-1}
-        autoComplete="off"
-        className="hidden"
-        aria-hidden="true"
-      />
+      {/* Client honeypot — must stay empty; never use autocomplete */}
+      <div className="absolute -left-[9999px] h-0 w-0 overflow-hidden" aria-hidden="true">
+        <label htmlFor="contact-website">Website</label>
+        <input
+          id="contact-website"
+          type="text"
+          name="website"
+          tabIndex={-1}
+          autoComplete="off"
+        />
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         <Field
@@ -238,9 +211,17 @@ export function ContactForm({ defaultSubject }: { defaultSubject?: string }) {
       {status === "error" ? (
         <div
           role="alert"
-          className="rounded-md border border-red-cta/20 bg-red-cta/5 px-4 py-3 text-sm text-red-cta"
+          className="rounded-md border border-red-cta/20 bg-red-cta/5 px-4 py-3 text-sm text-red-cta space-y-2"
         >
-          {errorMessage || "Something went wrong. Please try again."}
+          <p>{errorMessage || "Something went wrong. Please try again."}</p>
+          {mailtoHref ? (
+            <p>
+              <a href={mailtoHref} className="font-semibold underline">
+                Open email to {primary}
+              </a>
+              <span className="text-ink-soft"> (CC {secondary})</span>
+            </p>
+          ) : null}
         </div>
       ) : null}
 

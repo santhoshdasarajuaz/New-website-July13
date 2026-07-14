@@ -58,12 +58,14 @@ After creating the Static Web App in Azure (GitHub connected), add the deploymen
 
 ### Contact form
 
-Submissions are sent via **FormSubmit** (browser → FormSubmit API → Zoho Mail).  
-Recipients: `info@niagaprestasi.com` (To) and `elill@niagaprestasi.com` (CC).
+Provider-agnostic service — see [`docs/CONTACT_PROVIDERS.md`](docs/CONTACT_PROVIDERS.md).
 
-**One-time activation:** the first live submit sends an activation email to `info@niagaprestasi.com`. Open Zoho Mail and click **Confirm** so delivery starts. After that, every enquiry lands in both Zoho inboxes.
+**Current provider:** FormSubmit (AJAX) → Zoho Mail  
+**To:** `info@niagaprestasi.com` · **CC:** `elill@niagaprestasi.com` · **Reply-To:** visitor email  
 
-No SMTP / Node server / Nodemailer on Azure Static Web Apps Free.
+Switch providers in `src/config/contact.ts` without changing the form UI.
+
+**One-time:** after first live submit, confirm the FormSubmit activation email in Zoho (`info@`).
 
 ## Environment variables
 
