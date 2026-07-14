@@ -1,83 +1,63 @@
 # Contact enquiry providers
 
-The contact form UI (`ContactForm`) **never** talks to FormSubmit, EmailJS, or any other vendor directly.
+The contact form UI (`ContactForm`) **never** talks to a vendor directly.
+It only calls `submitContactEnquiry()` from `@/services/contact`.
 
-It only calls:
+All settings live in `src/config/contact.ts`.
 
-```ts
-import { submitContactEnquiry } from "@/services/contact";
-```
+## Root cause (2026-07 production failure)
 
-Provider selection and email settings live in **one file**:
+FormSubmit AJAX (`https://formsubmit.co/ajax/...`) failed in production:
 
-`src/config/contact.ts`
+| Probe | Result |
+|-------|--------|
+| PowerShell POST | **HTTP 525** then **500** / **522** (Cloudflare origin SSL / timeout) |
+| Browser fetch from Azure SWA origin | **Abort after 25s** (`Failed to fetch` / timeout) |
+| FormSubmit homepage GET | 200 (CDN page up, API origin unhealthy) |
 
-## Current production setup (Azure Static Web Apps Free)
+This is **not a Zoho Mail issue**. FormSubmit’s API origin behind Cloudflare was down/unreachable.
+
+## Current production setup
 
 | Setting | Value |
 |---------|--------|
-| Provider | `formsubmit` |
-| To | `info@niagaprestasi.com` |
-| CC | `elill@niagaprestasi.com` |
-| Reply-To | visitor’s email |
-| Spam | client honeypot + FormSubmit `_honey` |
-| UI thank-you | branded in-app success (AJAX — no FormSubmit page) |
-| Secrets | none (FormSubmit uses the destination email only) |
+| Primary provider | **Web3Forms** |
+| Fallback | FormSubmit (only if Web3Forms fails with network/timeout/5xx) |
+| To | Access-key inbox → `info@niagaprestasi.com` |
+| CC | `elill@niagaprestasi.com` (`ccemail`) |
+| Reply-To | visitor email (`replyto`) |
+| Spam | client honeypot + Web3Forms `botcheck` |
+| Secrets | `VITE_WEB3FORMS_ACCESS_KEY` (public access key by design) |
 
-**One-time:** first live submit sends an activation email to `info@niagaprestasi.com`. Confirm it in Zoho Mail.
+### Required one-time setup (client / admin)
 
-## How to switch providers later
+1. Open https://web3forms.com → **Create your Form**
+2. Enter **`info@niagaprestasi.com`** and verify via the email Zoho receives
+3. Copy the **Access Key**
+4. Add GitHub secret: `VITE_WEB3FORMS_ACCESS_KEY` = that key  
+   (Repo → Settings → Secrets and variables → Actions)
+5. Re-run the Azure Static Web Apps workflow (or push a commit)
 
-1. Open `src/config/contact.ts`.
-2. Set `provider` to one of:
-   - `formsubmit` (default)
-   - `emailjs`
-   - `web3forms`
-   - `zoho`
-   - `gmail`
-   - `cloudflare-workers`
-   - `azure-functions`
-   - `custom-api`
-3. Fill that provider’s block (or the matching `VITE_*` env vars).
-4. Implement the provider module under `src/services/contact/providers/` if it is still a stub.
-5. Register it in `src/services/contact/index.ts` (already wired to stubs).
-6. **Do not change** `ContactForm.tsx` unless the shared `ContactEnquiry` shape changes.
+Without this secret, the form correctly shows a config error + mailto fallback.
 
-### Example: switch to Web3Forms
+## How to switch providers
 
-```ts
-// src/config/contact.ts
-provider: "web3forms",
-web3forms: {
-  accessKey: import.meta.env.VITE_WEB3FORMS_ACCESS_KEY ?? "",
-},
-```
+1. Edit `src/config/contact.ts` → `provider`
+2. Fill that provider’s config / `VITE_*` env
+3. Implement stub under `src/services/contact/providers/` if needed
+4. Do **not** change `ContactForm.tsx`
 
-```env
-# .env.local / Azure SWA app settings (as build-time Vite env)
-VITE_WEB3FORMS_ACCESS_KEY=your_public_access_key
-```
+## Error codes
 
-Then replace the stub in `providers/` with a real Web3Forms `fetch` implementation that still returns `ContactSubmitResult`.
+| Code | Meaning |
+|------|---------|
+| `network` | fetch failed (offline / DNS / CORS block) |
+| `timeout` | no response within timeout |
+| `service_unavailable` | HTTP 5xx / Cloudflare 522–525 |
+| `invalid_response` | non-JSON body |
+| `activation_pending` | FormSubmit activation email not confirmed |
+| `config_missing` | missing access key / provider not wired |
+| `provider_rejected` | 4xx / success:false from provider |
+| `unknown` | catch-all |
 
-### Example: switch to Azure Functions / Cloudflare Worker
-
-Point `CONTACT_CONFIG.provider` at `azure-functions` or `cloudflare-workers`, set the endpoint URL env var, and implement that provider to `POST` JSON `{ fullName, email, subject, message, ... }` to your function. The function can then use Zoho SMTP or another secure secret store—secrets stay off the static frontend.
-
-## Architecture
-
-```
-ContactForm (UI)
-    ↓
-submitContactEnquiry()          ← src/services/contact/index.ts
-    ↓
-Active ContactProvider          ← selected by CONTACT_CONFIG.provider
-    ↓
-FormSubmit / EmailJS / …        ← src/services/contact/providers/*
-    ↓
-Zoho Mail (info@ + elill@)
-```
-
-## Error behaviour
-
-If the active provider is down or returns an error, the service returns `{ ok: false, message, mailtoHref }`. The UI shows the message and a **mailto** fallback prefilled to both Zoho addresses so the visitor can still reach the team.
+Dev builds log `details` to the console; production UI shows clean messages + mailto.

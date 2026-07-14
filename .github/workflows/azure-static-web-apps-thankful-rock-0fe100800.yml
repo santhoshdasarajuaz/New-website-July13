@@ -30,6 +30,9 @@ jobs:
           cache: npm
 
       - name: Install and build
+        env:
+          # Public Web3Forms access key (create at https://web3forms.com for info@niagaprestasi.com)
+          VITE_WEB3FORMS_ACCESS_KEY: ${{ secrets.VITE_WEB3FORMS_ACCESS_KEY }}
         run: |
           npm install
           npm run build

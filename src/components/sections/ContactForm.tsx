@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Send, CheckCircle2 } from "lucide-react";
 import { z } from "zod";
 import { CONTACT_CONFIG } from "@/config/contact";
-import { submitContactEnquiry } from "@/services/contact";
+import { submitContactEnquiry, type ContactErrorCode } from "@/services/contact";
 
 const subjects = [
   "IT Services",
@@ -21,6 +21,26 @@ const contactSchema = z.object({
   subject: z.string().trim().min(1, "Please select a subject"),
   message: z.string().trim().min(10, "Please enter a message (at least 10 characters)"),
 });
+
+function friendlyError(code: ContactErrorCode | undefined, fallback: string): string {
+  switch (code) {
+    case "network":
+      return "We could not reach the email service. Please check your connection and try again.";
+    case "timeout":
+      return "The email service took too long to respond. Please try again in a moment.";
+    case "service_unavailable":
+      return "The email service is temporarily unavailable. Please try again later or use the email link below.";
+    case "activation_pending":
+      return "Email delivery is waiting for inbox confirmation. Use the email link below if this persists.";
+    case "config_missing":
+      return "Contact delivery is not fully configured yet. Please use the email link below.";
+    case "invalid_response":
+    case "provider_rejected":
+    case "unknown":
+    default:
+      return fallback || "Unable to send your message. Please try again or use the email link below.";
+  }
+}
 
 /**
  * Contact / Get Started form.
@@ -80,7 +100,7 @@ export function ContactForm({ defaultSubject }: { defaultSubject?: string }) {
     }
 
     setStatus("error");
-    setErrorMessage(result.message);
+    setErrorMessage(friendlyError(result.code, result.message));
     setMailtoHref(result.mailtoHref);
   };
 
@@ -114,8 +134,7 @@ export function ContactForm({ defaultSubject }: { defaultSubject?: string }) {
       className="relative rounded-xl border border-border bg-white p-6 lg:p-8 space-y-5"
       noValidate
     >
-      {/* Client honeypot — must stay empty; never use autocomplete */}
-      <div className="absolute -left-[9999px] h-0 w-0 overflow-hidden" aria-hidden="true">
+      <div className="absolute left-[-9999px] h-0 w-0 overflow-hidden" aria-hidden="true">
         <label htmlFor="contact-website">Website</label>
         <input
           id="contact-website"
@@ -217,7 +236,7 @@ export function ContactForm({ defaultSubject }: { defaultSubject?: string }) {
           {mailtoHref ? (
             <p>
               <a href={mailtoHref} className="font-semibold underline">
-                Open email to {primary}
+                Email {primary}
               </a>
               <span className="text-ink-soft"> (CC {secondary})</span>
             </p>

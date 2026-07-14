@@ -1,23 +1,26 @@
 import { CONTACT_CONFIG } from "@/config/contact";
 import type { ContactEnquiry, ContactProvider, ContactSubmitResult } from "../types";
+import { failure, fetchWithTimeout, sanitizePlainText } from "../utils";
+
+const TIMEOUT_MS = 15_000;
 
 /**
- * FormSubmit provider — browser → FormSubmit AJAX → Zoho inboxes.
- * No API keys. Compatible with Azure Static Web Apps Free.
- *
- * - Reply-To: visitor email (`_replyto`)
- * - To: primary, CC: secondary
- * - Spam: FormSubmit `_honey` + client honeypot
- * - AJAX: no FormSubmit confirmation page in the browser
+ * FormSubmit provider — kept as optional fallback.
+ * Note (2026-07): FormSubmit origin frequently returns Cloudflare 522/525/500
+ * and hangs from browsers; do not rely on it as the only path.
  */
 export const formSubmitProvider: ContactProvider = {
   id: "formsubmit",
+
+  isConfigured() {
+    return true;
+  },
 
   async submit(enquiry: ContactEnquiry): Promise<ContactSubmitResult> {
     const { primary, secondary } = CONTACT_CONFIG.recipients;
 
     if (enquiry.honeypot?.trim()) {
-      return { ok: true, suppressed: true };
+      return { ok: true, suppressed: true, provider: "formsubmit" };
     }
 
     const endpoint = CONTACT_CONFIG.formsubmit.useAjax
@@ -26,87 +29,96 @@ export const formSubmitProvider: ContactProvider = {
 
     let response: Response;
     try {
-      response = await fetch(endpoint, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
+      response = await fetchWithTimeout(
+        endpoint,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            name: sanitizePlainText(enquiry.fullName, 200),
+            email: sanitizePlainText(enquiry.email, 320),
+            company: sanitizePlainText(enquiry.company || "—", 200),
+            phone: sanitizePlainText(enquiry.phone || "—", 80),
+            subject: sanitizePlainText(enquiry.subject, 200),
+            message: sanitizePlainText(enquiry.message, 5000),
+            page: sanitizePlainText(enquiry.submittedFrom || "/", 300),
+            _replyto: sanitizePlainText(enquiry.email, 320),
+            _subject: `${CONTACT_CONFIG.subjectPrefix} ${sanitizePlainText(enquiry.subject, 200)}`,
+            _cc: secondary,
+            _template: "table",
+            _honey: "",
+            _captcha: "false",
+          }),
         },
-        body: JSON.stringify({
-          name: enquiry.fullName,
-          email: enquiry.email,
-          company: enquiry.company || "—",
-          phone: enquiry.phone || "—",
-          subject: enquiry.subject,
-          message: enquiry.message,
-          page: enquiry.submittedFrom || "/",
-          // Reply-To = visitor
-          _replyto: enquiry.email,
-          _subject: `${CONTACT_CONFIG.subjectPrefix} ${enquiry.subject}`,
-          // Both Zoho inboxes
-          _cc: secondary,
-          _template: "table",
-          // FormSubmit honeypot (must stay empty for humans)
-          _honey: "",
-          // AJAX path — captcha would interrupt brand UI; honeypot used instead
-          _captcha: "false",
-        }),
-      });
-    } catch {
+        TIMEOUT_MS,
+      );
+    } catch (err) {
+      const aborted = err instanceof DOMException && err.name === "AbortError";
       return failure(
-        `Our email service is temporarily unavailable. Please email ${primary} or ${secondary} directly.`,
-        primary,
-        secondary,
+        aborted ? "timeout" : "network",
+        aborted
+          ? `The email service timed out. Please try again or email ${primary}.`
+          : `We could not reach the email service. Please try again or email ${primary}.`,
         enquiry,
+        {
+          provider: "formsubmit",
+          details: err instanceof Error ? err.message : String(err),
+        },
       );
     }
 
-    const result = (await response.json().catch(() => null)) as {
-      success?: string | boolean;
-      message?: string;
-    } | null;
+    const raw = await response.text();
+    let result: { success?: string | boolean; message?: string } | null = null;
+    try {
+      result = JSON.parse(raw) as { success?: string | boolean; message?: string };
+    } catch {
+      // Cloudflare error pages (522/525) often return HTML
+      if (response.status === 522 || response.status === 525 || response.status >= 500) {
+        return failure(
+          "service_unavailable",
+          `The email relay is temporarily down. Please email ${primary} or ${secondary} directly.`,
+          enquiry,
+          {
+            provider: "formsubmit",
+            httpStatus: response.status,
+            details: raw.slice(0, 200),
+          },
+        );
+      }
+      return failure(
+        "invalid_response",
+        `Unexpected response from the email service. Please email ${primary} directly.`,
+        enquiry,
+        { provider: "formsubmit", httpStatus: response.status, details: raw.slice(0, 200) },
+      );
+    }
+
+    const msg = String(result.message || "").toLowerCase();
+    if (msg.includes("activate") || msg.includes("confirm your email")) {
+      return failure(
+        "activation_pending",
+        `Email delivery is awaiting activation. Please check ${primary} for a confirmation link, then try again.`,
+        enquiry,
+        { provider: "formsubmit", httpStatus: response.status, details: result.message },
+      );
+    }
 
     const succeeded =
-      response.ok &&
-      result != null &&
-      result.success !== false &&
-      result.success !== "false";
+      response.ok && result.success !== false && result.success !== "false";
 
     if (!succeeded) {
       return failure(
-        result?.message ||
+        response.status >= 500 ? "service_unavailable" : "provider_rejected",
+        result.message ||
           `Unable to send right now. Please email ${primary} or ${secondary} directly.`,
-        primary,
-        secondary,
         enquiry,
+        { provider: "formsubmit", httpStatus: response.status, details: raw.slice(0, 200) },
       );
     }
 
-    return { ok: true };
+    return { ok: true, provider: "formsubmit" };
   },
 };
-
-function failure(
-  message: string,
-  primary: string,
-  secondary: string,
-  enquiry: ContactEnquiry,
-): ContactSubmitResult {
-  const body = [
-    enquiry.message,
-    "",
-    "---",
-    `Name: ${enquiry.fullName}`,
-    enquiry.company ? `Company: ${enquiry.company}` : null,
-    `Email: ${enquiry.email}`,
-    enquiry.phone ? `Phone: ${enquiry.phone}` : null,
-  ]
-    .filter(Boolean)
-    .join("\n");
-
-  const mailtoHref = `mailto:${primary}?cc=${encodeURIComponent(secondary)}&subject=${encodeURIComponent(
-    `${CONTACT_CONFIG.subjectPrefix} ${enquiry.subject}`,
-  )}&body=${encodeURIComponent(body)}`;
-
-  return { ok: false, message, mailtoHref };
-}

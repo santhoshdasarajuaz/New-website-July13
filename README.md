@@ -60,12 +60,10 @@ After creating the Static Web App in Azure (GitHub connected), add the deploymen
 
 Provider-agnostic service — see [`docs/CONTACT_PROVIDERS.md`](docs/CONTACT_PROVIDERS.md).
 
-**Current provider:** FormSubmit (AJAX) → Zoho Mail  
-**To:** `info@niagaprestasi.com` · **CC:** `elill@niagaprestasi.com` · **Reply-To:** visitor email  
+**Primary:** Web3Forms → Zoho (`info@` + CC `elill@`)  
+**Fallback:** FormSubmit (currently unreliable — Cloudflare 522/525)
 
-Switch providers in `src/config/contact.ts` without changing the form UI.
-
-**One-time:** after first live submit, confirm the FormSubmit activation email in Zoho (`info@`).
+**Required:** GitHub Actions secret `VITE_WEB3FORMS_ACCESS_KEY` from https://web3forms.com (create with `info@niagaprestasi.com`).
 
 ## Environment variables
 
